@@ -4,27 +4,45 @@
 
 package frc.robot.autos;
 
+import java.util.HashMap;
+
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.FollowPathWithEvents;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Swerve;
 
 /** Add your docs here. */
 public class autoPathPlanner extends SequentialCommandGroup {
-    public autoPathPlanner(Swerve s_Swerve) {
-        PathPlannerTrajectory examplePath = PathPlanner.loadPath("tryPath", new PathConstraints(Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+    public autoPathPlanner(Swerve s_Swerve, ArmSubsystem m_arm) {
+        PathPlannerTrajectory examplePath = PathPlanner.loadPath("BetterWork", new PathConstraints(Constants.AutoConstants.kMaxSpeedMetersPerSecond,
         Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
         // 3. Define PID controllers for tracking trajectory
         PIDController xController = new PIDController(0, 0.0, 0);
         PIDController yController = new PIDController(0, 0.0, 0);
         PIDController zController = new PIDController(0, 0.0, 0);
+
+        SequentialCommandGroup arm = new SequentialCommandGroup(
+            new InstantCommand(() -> m_arm.moveArmUp()),
+            new WaitCommand(1.5),
+            new InstantCommand(() -> m_arm.moveArmDown()),
+            new WaitCommand(1),
+            new InstantCommand(() -> m_arm.stopArm())
+        );
+
+        HashMap<String, Command> eventMap = new HashMap<>();
+        eventMap.put("upArm", arm);
+
 
         PPSwerveControllerCommand ppPath = new PPSwerveControllerCommand(
                 examplePath, 
@@ -36,9 +54,12 @@ public class autoPathPlanner extends SequentialCommandGroup {
                 s_Swerve::setModuleStates, // Module states consumer
                 s_Swerve);
 
-        new SequentialCommandGroup(
+        FollowPathWithEvents follow = new FollowPathWithEvents(ppPath, examplePath.getMarkers(), eventMap);
+
+        addCommands(
+            new InstantCommand(() -> s_Swerve.zeroGyro()),
             new InstantCommand(() -> s_Swerve.resetOdometry(examplePath.getInitialHolonomicPose())),
-            ppPath,
+            follow,
             new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()));
     }
 }

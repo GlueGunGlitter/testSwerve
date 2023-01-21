@@ -4,9 +4,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -30,8 +31,17 @@ public class RobotContainer {
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
+    /* System Buttons */
+    private final JoystickButton grapGamePiece = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton grapDropGamePiece = new JoystickButton(driver, XboxController.Button.kX.value);
+    private final Trigger armMoveUpR = new Trigger(() -> driver.getRawAxis(3) > 0.1);
+    private final Trigger armMoveDownL = new Trigger(() -> driver.getRawAxis(2) > 0.1);
+
+
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+    private final GrapperSubsystem m_grapper = new GrapperSubsystem();
+    private final ArmSubsystem m_arm = new ArmSubsystem();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -59,6 +69,19 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+
+        /* System Buttons */
+        grapGamePiece.onTrue(Commands.run(() -> m_grapper.grapGamePiece(), m_grapper))
+        .onFalse(Commands.runOnce(() -> m_grapper.grapStop(), m_grapper));
+
+        grapDropGamePiece.onTrue(Commands.run(() -> m_grapper.grapDropGamePiece(), m_grapper))
+        .onFalse(Commands.runOnce(() -> m_grapper.grapStop(), m_grapper));
+
+        armMoveUpR.onTrue(Commands.run(() -> m_arm.moveArmUp(), m_arm))
+        .onFalse(Commands.runOnce(() -> m_arm.stopArm(), m_arm));
+
+        armMoveDownL.onTrue(Commands.run(() -> m_arm.moveArmDown(), m_arm))
+        .onFalse(Commands.runOnce(() -> m_arm.stopArm(), m_arm));
     }
 
     /**
@@ -68,6 +91,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new autoPathPlanner(s_Swerve);
+        return new autoPathPlanner(s_Swerve, m_arm);
     }
 }
