@@ -40,8 +40,8 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    private final GrapperSubsystem m_grapper = new GrapperSubsystem();
-    private final ArmSubsystem m_arm = new ArmSubsystem();
+    private final Grappersubsystem m_grapper = new Grappersubsystem();
+    private final ARMsubsystem m_arm = new ARMsubsystem();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -71,17 +71,17 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
         /* System Buttons */
-        grapGamePiece.onTrue(Commands.run(() -> m_grapper.grapGamePiece(), m_grapper))
-        .onFalse(Commands.runOnce(() -> m_grapper.grapStop(), m_grapper));
+        grapGamePiece.onTrue(Commands.run(() -> m_grapper.CloseGrap(), m_grapper))
+        .onFalse(Commands.runOnce(() -> m_grapper.StopGrapper(), m_grapper));
 
-        grapDropGamePiece.onTrue(Commands.run(() -> m_grapper.grapDropGamePiece(), m_grapper))
-        .onFalse(Commands.runOnce(() -> m_grapper.grapStop(), m_grapper));
+        grapDropGamePiece.onTrue(Commands.run(() -> m_grapper.ReleseGrap(), m_grapper))
+        .onFalse(Commands.runOnce(() -> m_grapper.StopGrapper(), m_grapper));
 
-        armMoveUpR.onTrue(Commands.run(() -> m_arm.moveArmUp(), m_arm))
-        .onFalse(Commands.runOnce(() -> m_arm.stopArm(), m_arm));
+        armMoveUpR.onTrue(Commands.run(() -> m_arm.setposison(0), m_arm))
+        .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
 
-        armMoveDownL.onTrue(Commands.run(() -> m_arm.moveArmDown(), m_arm))
-        .onFalse(Commands.runOnce(() -> m_arm.stopArm(), m_arm));
+        armMoveDownL.onTrue(Commands.run(() -> m_arm.setSensorPosition(1), m_arm))
+        .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
     }
 
     /**
