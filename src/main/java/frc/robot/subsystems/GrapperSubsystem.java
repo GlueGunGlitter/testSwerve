@@ -4,37 +4,37 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class GrapperSubsystem extends SubsystemBase {
-  /** Creates a new GrapperSubsystem. */
-  TalonFX grap = new TalonFX(19);
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-  public GrapperSubsystem() {
-    grap.configFactoryDefault();
-    grap.setNeutralMode(NeutralMode.Brake);
-
+public class Grappersubsystem extends SubsystemBase {
+  /** Creates a new Grapper. */
+  WPI_TalonFX motorM0 = new WPI_TalonFX(0);
+  public Grappersubsystem() {
+    //reset config motorM0
+    motorM0.configFactoryDefault();
+    motorM0.setNeutralMode(NeutralMode.Brake);
   }
-
-  public void grapGamePiece() {
-    grap.set(TalonFXControlMode.PercentOutput, 0.5);
-  }
-
-  public void grapStop() {
-    grap.set(TalonFXControlMode.PercentOutput, 0);
-  }
-
-  public void grapDropGamePiece() {
-    grap.set(TalonFXControlMode.PercentOutput, -0.5);
-  }
-  
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  //Stop motorM0
+  public void StopGrapper() {
+    motorM0.set(0);
+  }
+  
+  //Close Grap
+  public void CloseGrap() {
+    motorM0.set(1);
+  }
+
+  //Relese Grap
+  public void ReleseGrap() {
+    motorM0.set(1);
   }
 }
