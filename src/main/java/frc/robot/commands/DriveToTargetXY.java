@@ -26,10 +26,10 @@ import frc.robot.subsystems.limelightSubSystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DriveToTargetX extends SequentialCommandGroup {
+public class DriveToTargetXY extends SequentialCommandGroup {
     private limelightSubSystem m_Limelight;
 
-  public DriveToTargetX(Swerve s_Swerve, limelightSubSystem light){
+  public DriveToTargetXY(Swerve s_Swerve, limelightSubSystem light){
     m_Limelight = light;
     addRequirements(m_Limelight);
     TrajectoryConfig config =
@@ -46,9 +46,9 @@ public class DriveToTargetX extends SequentialCommandGroup {
             // Start at the origin facing the +X direction
             initPose,
             // Pass through these two interior waypoints, making an 's' curve path
-            List.of(new Translation2d(m_Limelight.targetX(), 0 )),
+            List.of(new Translation2d(m_Limelight.targetX(), m_Limelight.targetY() )),
             // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(initPose.getX() + m_Limelight.targetX() , initPose.getY(), new Rotation2d(0)),
+            new Pose2d(initPose.getX() + m_Limelight.targetX() , initPose.getY() + m_Limelight.targetY() , new Rotation2d(0)),
             config);
     var thetaController =
         new ProfiledPIDController(

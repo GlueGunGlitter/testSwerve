@@ -26,12 +26,18 @@ import frc.robot.subsystems.limelightSubSystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DriveToTargetX extends SequentialCommandGroup {
+public class INTDriveToTargetXY extends SequentialCommandGroup {
+    private static final double INTX = 0;
+    private static final double INTY = 0;
     private limelightSubSystem m_Limelight;
 
-  public DriveToTargetX(Swerve s_Swerve, limelightSubSystem light){
+  public INTDriveToTargetXY(Swerve s_Swerve, limelightSubSystem light, double x, double y){
     m_Limelight = light;
     addRequirements(m_Limelight);
+
+    Double INTX = x;
+    Double INTY = y;
+
     TrajectoryConfig config =
         new TrajectoryConfig(
                 Constants.AutoConstants.kMaxSpeedMetersPerSecond,
@@ -39,16 +45,18 @@ public class DriveToTargetX extends SequentialCommandGroup {
             .setKinematics(Constants.Swerve.swerveKinematics);
     
             Pose2d initPose = s_Swerve.getPose();
-
+            double Sx = INTX;
+            double Sy = INTY;
+            
     // An example trajectory to follow.  All units in meters.
     Trajectory exampleTrajectory =
         TrajectoryGenerator.generateTrajectory(
             // Start at the origin facing the +X direction
             initPose,
             // Pass through these two interior waypoints, making an 's' curve path
-            List.of(new Translation2d(m_Limelight.targetX(), 0 )),
+            List.of(new Translation2d( INTX, INTY )),
             // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(initPose.getX() + m_Limelight.targetX() , initPose.getY(), new Rotation2d(0)),
+            new Pose2d(initPose.getX() + INTX , initPose.getY() + INTY , new Rotation2d(0)),
             config);
     var thetaController =
         new ProfiledPIDController(

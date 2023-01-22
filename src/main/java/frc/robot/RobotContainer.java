@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -42,6 +43,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final Grappersubsystem m_grapper = new Grappersubsystem();
     private final ARMsubsystem m_arm = new ARMsubsystem();
+    private final limelightSubSystem m_Limelight = new limelightSubSystem();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -82,6 +84,9 @@ public class RobotContainer {
 
         armMoveDownL.onTrue(Commands.run(() -> m_arm.setSensorPosition(1), m_arm))
         .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
+
+        new JoystickButton(driver, Button.kL1.value)
+        .onTrue(new INTDriveToTargetXY(s_Swerve, m_Limelight , 1, 1));
     }
 
     /**

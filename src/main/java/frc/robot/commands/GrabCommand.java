@@ -22,7 +22,7 @@ public class GrabCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_Grapper) {
+    if(true) {
       m_Grapper.CloseGrap();
     }
   }
