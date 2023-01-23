@@ -26,15 +26,15 @@ public class RobotContainer {
     private final Joystick m_HelperDriverController = new Joystick(1);
 
     //pov
-    POVButton Uppov = new POVButton(m_driver, 0);
-    POVButton Rahgtpov = new POVButton(m_driver, 90);
-    POVButton Downpov = new POVButton(m_driver, 180);
-    POVButton Leftpov = new POVButton(m_driver, 270);
+    POVButton d_Uppov = new POVButton(m_driver, 0);
+    POVButton d_Rahgtpov = new POVButton(m_driver, 90);
+    POVButton d_Downpov = new POVButton(m_driver, 180);
+    POVButton d_Leftpov = new POVButton(m_driver, 270);
 
-    POVButton Uppov = new POVButton(m_HelperDriverController, 0);
-    POVButton Rahgtpov = new POVButton(m_HelperDriverController, 90);
-    POVButton Downpov = new POVButton(m_HelperDriverController, 180);
-    POVButton Leftpov = new POVButton(m_HelperDriverController, 270);
+    POVButton h_Uppov = new POVButton(m_HelperDriverController, 0);
+    POVButton h_Rahgtpov = new POVButton(m_HelperDriverController, 90);
+    POVButton h_Downpov = new POVButton(m_HelperDriverController, 180);
+    POVButton h_Leftpov = new POVButton(m_HelperDriverController, 270);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
