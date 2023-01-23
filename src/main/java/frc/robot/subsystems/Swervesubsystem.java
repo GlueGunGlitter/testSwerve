@@ -19,12 +19,12 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Swerve extends SubsystemBase {
+public class Swervesubsystem extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public AHRS gyro;
 
-    public Swerve() {
+    public Swervesubsystem() {
         gyro = new AHRS(SPI.Port.kMXP, (byte) 200); 
         zeroGyro();
 

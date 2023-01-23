@@ -9,20 +9,19 @@ import frc.robot.subsystems.*;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DriveToTarget extends SequentialCommandGroup {
-  /** Creates a new DriveToTarget. */
+public class DriveToTarget2 extends SequentialCommandGroup {
+  /** Creates a new DriveToTarget2. */
   private limelightSubSystem m_Limelight;
   private Swervesubsystem m_Swerve;
-  public DriveToTarget(limelightSubSystem light ,Swervesubsystem swerve) {
+
+  public DriveToTarget2(limelightSubSystem light ,Swervesubsystem swerve) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_Limelight = light;
     addRequirements(m_Limelight);
     m_Swerve = swerve;
     addRequirements(m_Swerve);
-
-    addCommands( new INTDriveToTargetXY(swerve, light, m_Limelight.targetX(), m_Limelight.targetY()).until(() -> m_Limelight.targetX() > 30 && m_Limelight.targetX() < -30));
-
-    addCommands( new DriveToTarget2(light, swerve).until(() -> m_Limelight.targetX() < 30 && m_Limelight.targetX() > -30));
+    addCommands(new INTDriveToTargetXY(swerve, light, m_Limelight.targetX(), 0));
+    addCommands(new INTDriveToTargetXY(swerve, light, 0, m_Limelight.targetY()).until(() -> m_Limelight.targetX() == 0));
   }
 }

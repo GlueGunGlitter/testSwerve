@@ -13,14 +13,14 @@ import frc.robot.subsystems.*;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class place extends SequentialCommandGroup {
+public class placeCommand extends SequentialCommandGroup {
   /** Creates a new place. */
   private limelightSubSystem m_light;
   private ARMsubsystem m_ARM;
   private Grappersubsystem m_Grapper;
-  private Swerve m_Swerve;
+  private Swervesubsystem m_Swerve;
 
-  public place(limelightSubSystem light ,ARMsubsystem ARM , Grappersubsystem grapper , Swerve swerve) {
+  public placeCommand(limelightSubSystem light ,ARMsubsystem ARM , Grappersubsystem grapper , Swervesubsystem swerve) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_light = light;
@@ -33,7 +33,7 @@ public class place extends SequentialCommandGroup {
     addRequirements(m_Swerve);
 
     addCommands();
-    new DriveToTarget(light, swerve);
+    new DriveToTargetSet(light, swerve);
     new SetARMPostionToPlace(ARM, light);
     new ReleseCommand(grapper, ARM);
   }

@@ -6,7 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
-import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Swervesubsystem;
 
 import java.util.List;
 
@@ -21,6 +21,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.subsystems.limelightSubSystem;
+import frc.lib.util.*;
 
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -31,12 +32,10 @@ public class INTDriveToTargetXY extends SequentialCommandGroup {
     private static final double INTY = 0;
     private limelightSubSystem m_Limelight;
 
-  public INTDriveToTargetXY(Swerve s_Swerve, limelightSubSystem light, double x, double y){
+  public INTDriveToTargetXY(Swervesubsystem s_Swerve, limelightSubSystem light, double x, double y){
     m_Limelight = light;
     addRequirements(m_Limelight);
 
-    Double INTX = x;
-    Double INTY = y;
 
     TrajectoryConfig config =
         new TrajectoryConfig(
@@ -44,21 +43,12 @@ public class INTDriveToTargetXY extends SequentialCommandGroup {
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
             .setKinematics(Constants.Swerve.swerveKinematics);
     
-            Pose2d initPose = s_Swerve.getPose();
-            double Sx = INTX;
-            double Sy = INTY;
+
             
     // An example trajectory to follow.  All units in meters.
-    Trajectory exampleTrajectory =
-        TrajectoryGenerator.generateTrajectory(
-            // Start at the origin facing the +X direction
-            initPose,
-            // Pass through these two interior waypoints, making an 's' curve path
-            List.of(new Translation2d( INTX, INTY )),
-            // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(initPose.getX() + INTX , initPose.getY() + INTY , new Rotation2d(0)),
-            config);
-    var thetaController =
+    Trajectory exampleTrajectory = util.getTraj(config, 0, 0, s_Swerve.getPose());
+
+        var thetaController =
         new ProfiledPIDController(
             Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
     thetaController.enableContinuousInput(-Math.PI, Math.PI);

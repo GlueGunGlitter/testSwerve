@@ -19,11 +19,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.ARMsubsystem;
-import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Swervesubsystem;
 
 /** Add your docs here. */
 public class autoPathPlanner extends SequentialCommandGroup {
-    public autoPathPlanner(Swerve s_Swerve, ARMsubsystem m_arm) {
+    public autoPathPlanner(Swervesubsystem s_Swerve, ARMsubsystem m_arm) {
         PathPlannerTrajectory examplePath = PathPlanner.loadPath("BetterWork", new PathConstraints(Constants.AutoConstants.kMaxSpeedMetersPerSecond,
         Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
