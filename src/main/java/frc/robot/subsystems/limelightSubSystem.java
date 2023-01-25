@@ -13,7 +13,7 @@ public class limelightSubSystem extends SubsystemBase {
 
     public void init() {
         System.out.println("init camera subsystem/n");
-        statepip = 1;
+        statepip = 0;
     }
 
     @Override

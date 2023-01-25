@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import org.ejml.sparse.csc.misc.ImplCommonOpsWithSemiRing_DSCC;
-
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.*;
 
@@ -18,9 +18,8 @@ public class placeCommand extends SequentialCommandGroup {
   private limelightSubSystem m_light;
   private ARMsubsystem m_ARM;
   private Grappersubsystem m_Grapper;
-  private Swervesubsystem m_Swerve;
 
-  public placeCommand(limelightSubSystem light ,ARMsubsystem ARM , Grappersubsystem grapper , Swervesubsystem swerve) {
+  public placeCommand(limelightSubSystem light ,ARMsubsystem ARM , Grappersubsystem grapper ) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_light = light;
@@ -29,12 +28,10 @@ public class placeCommand extends SequentialCommandGroup {
     addRequirements(m_ARM);
     m_Grapper = grapper;
     addRequirements(m_Grapper);
-    m_Swerve = swerve;
-    addRequirements(m_Swerve);
 
-    addCommands();
-    new DriveToTargetSet(light, swerve);
-    new SetARMPostionToPlace(ARM, light);
-    new ReleseCommand(grapper, ARM);
+
+    addCommands(new SetARMPostionToPlace(ARM, light));
+    addCommands(new WaitCommand(2));
+    addCommands(new ReleseCommand(grapper, ARM));
   }
 }

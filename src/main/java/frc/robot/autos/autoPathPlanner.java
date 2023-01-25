@@ -18,12 +18,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.subsystems.ARMsubsystem;
-import frc.robot.subsystems.Swervesubsystem;
+import frc.robot.subsystems.*;
+
 
 /** Add your docs here. */
 public class autoPathPlanner extends SequentialCommandGroup {
-    public autoPathPlanner(Swervesubsystem s_Swerve, ARMsubsystem m_arm) {
+    public autoPathPlanner(Swervesubsystem s_Swerve, ARMsubsystem m_arm , Grappersubsystem grapper ,limelightSubSystem light) {
         PathPlannerTrajectory examplePath = PathPlanner.loadPath("BetterWork", new PathConstraints(Constants.AutoConstants.kMaxSpeedMetersPerSecond,
         Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
@@ -33,11 +33,7 @@ public class autoPathPlanner extends SequentialCommandGroup {
         PIDController zController = new PIDController(0, 0.0, 0);
 
         SequentialCommandGroup arm = new SequentialCommandGroup(
-            new InstantCommand(() -> m_arm.setposison(1)),
-            new WaitCommand(1.5),
-            new InstantCommand(() -> m_arm.setposison(0)),
-            new WaitCommand(1),
-            new InstantCommand(() -> m_arm.stopARM())
+            new AutoTargetAndPalce(grapper, m_arm, s_Swerve, light)
         );
 
         HashMap<String, Command> eventMap = new HashMap<>();

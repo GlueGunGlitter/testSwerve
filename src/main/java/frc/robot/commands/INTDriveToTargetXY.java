@@ -32,7 +32,7 @@ public class INTDriveToTargetXY extends SequentialCommandGroup {
     private static final double INTY = 0;
     private limelightSubSystem m_Limelight;
 
-  public INTDriveToTargetXY(Swervesubsystem s_Swerve, limelightSubSystem light, double x, double y){
+  public INTDriveToTargetXY(Swervesubsystem m_Swerve, limelightSubSystem light, double x, double y){
     m_Limelight = light;
     addRequirements(m_Limelight);
 
@@ -46,7 +46,7 @@ public class INTDriveToTargetXY extends SequentialCommandGroup {
 
             
     // An example trajectory to follow.  All units in meters.
-    Trajectory exampleTrajectory = util.getTraj(config, 0, 0, s_Swerve.getPose());
+    Trajectory exampleTrajectory = util.getTraj(config, 0, 0, m_Swerve.getPose());
 
         var thetaController =
         new ProfiledPIDController(
@@ -56,17 +56,17 @@ public class INTDriveToTargetXY extends SequentialCommandGroup {
     SwerveControllerCommand swerveControllerCommand =
         new SwerveControllerCommand(
             exampleTrajectory,
-            s_Swerve::getPose,
+            m_Swerve::getPose,
             Constants.Swerve.swerveKinematics,
             new PIDController(Constants.AutoConstants.kPXController, 0, 0),
             new PIDController(Constants.AutoConstants.kPYController, 0, 0),
             thetaController,
-            s_Swerve::setModuleStates,
-            s_Swerve);
+            m_Swerve::setModuleStates,
+            m_Swerve);
 
 
     addCommands(
-        new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
+        new InstantCommand(() -> m_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
         swerveControllerCommand
     );
 }
