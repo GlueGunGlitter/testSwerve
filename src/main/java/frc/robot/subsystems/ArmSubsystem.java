@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
@@ -13,70 +16,72 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class ARMsubsystem extends SubsystemBase {
   /** Creates a new ARMsubsystem. */
-  WPI_TalonFX motorM0 = new WPI_TalonFX(0);
+  WPI_TalonFX motorM21 = new WPI_TalonFX(21);
 
   public ARMsubsystem() {
-    //config motorM0
-    motorM0.configFactoryDefault();
-    motorM0.setNeutralMode(NeutralMode.Brake);
-    motorM0.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor ,0 ,0);
+    //config motorM21
+    motorM21.configFactoryDefault();
+    motorM21.setNeutralMode(NeutralMode.Brake);
+    motorM21.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor ,0 ,0);
 
     //SensorPosition get
-    motorM0.setSelectedSensorPosition(0);
+    motorM21.setSelectedSensorPosition(0);
 
-    //limit motorM0
-    motorM0.configForwardLimitSwitchSource(null, null);
-    motorM0.configReverseLimitSwitchSource(null, null);
-    motorM0.configForwardSoftLimitEnable(true, 0);
-    motorM0.configReverseSoftLimitEnable(true, 0);
+    //limit motorM21
+    motorM21.configForwardSoftLimitThreshold(300000, 30);
+    motorM21.configReverseSoftLimitThreshold(300000, 30);
+    motorM21.configForwardSoftLimitEnable(true, 0);
+    motorM21.configReverseSoftLimitEnable(true, 0);
 
     //Deadband
-    motorM0.configNeutralDeadband(0.1);
+    motorM21.configNeutralDeadband(0.1);
     
   
     //PIDmotor
-    motorM0.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 30);
-    motorM0.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 30);
-    motorM0.config_kP(0, 0.0, 0);
-    motorM0.config_kI(0, 0.0, 0);
-    motorM0.config_kD(0, 0.0, 0);
-    motorM0.config_kF(0, 0.0, 0);
+    motorM21.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 30);
+    motorM21.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 30);
+    motorM21.config_kP(0, 0.0, 30);
+    motorM21.config_kI(0, 0.0, 30);
+    motorM21.config_kD(0, 0.0, 30);
+    motorM21.config_kF(0, 0.0, 30);
 
     //PIDSpeed/POWER
-    motorM0.configMotionCruiseVelocity(20000);
-    motorM0.configMotionAcceleration(10000);
+    motorM21.configMotionCruiseVelocity(20000);
+    motorM21.configMotionAcceleration(10000);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    motorM0.getSelectedSensorPosition();
+    motorM21.getSelectedSensorPosition();
+    ShuffleboardTab tab = Shuffleboard.getTab("Shuffleboard");
+    SmartDashboard.putNumber("towerX", motorM21.getSelectedSensorPosition());
   }
 
   //SensorPosition
   public double getSensorPosition() {
-    return motorM0.getSelectedSensorPosition();
+    return motorM21.getSelectedSensorPosition();
   }
 
   //set SensorPosition
   public void setSensorPosition(int nan) {
-    motorM0.setSelectedSensorPosition(nan);
+    motorM21.setSelectedSensorPosition(nan);
   }
 
-  //stopmotorM0
+  //stopmotorM21
   public void stopARM() {
-    motorM0.set(0);
+    motorM21.set(0);
   }
   
   //mousion magic setPosision
   public void setposison(double Pos) {
     double position = Pos * 1;
-    motorM0.set(TalonFXControlMode.MotionMagic, position);
+    motorM21.set(TalonFXControlMode.MotionMagic, position);
   }
   
   //get SensorPosition PID
   public double getposison() {
-    double curretAngle = motorM0.getSelectedSensorPosition(0)/ 1;
+    double curretAngle = motorM21.getSelectedSensorPosition(0)/ 1;
     return curretAngle;
   }
 }

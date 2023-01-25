@@ -9,11 +9,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class limelightSubSystem extends SubsystemBase {
     private NetworkTable NetworkTable;
     private int statepip;
-    public limelightSubSystem() {}
+    public limelightSubSystem() {
+    NetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTable.getEntry("ledMode").setNumber(0);
+    }
 
     public void init() {
         System.out.println("init camera subsystem/n");
-        statepip = 0;
+        statepip = 1;
     }
 
     @Override

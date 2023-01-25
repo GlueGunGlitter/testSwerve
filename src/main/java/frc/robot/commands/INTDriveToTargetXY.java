@@ -42,11 +42,9 @@ public class INTDriveToTargetXY extends SequentialCommandGroup {
                 Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
             .setKinematics(Constants.Swerve.swerveKinematics);
-    
-
-            
+       
     // An example trajectory to follow.  All units in meters.
-    Trajectory exampleTrajectory = util.getTraj(config, 0, 0, m_Swerve.getPose());
+    Trajectory exampleTrajectory = util.getTraj(config, 1, 1, m_Swerve.getPose());
 
         var thetaController =
         new ProfiledPIDController(
