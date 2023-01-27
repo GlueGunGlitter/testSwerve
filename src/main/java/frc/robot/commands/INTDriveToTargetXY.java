@@ -28,8 +28,6 @@ import frc.lib.util.*;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class INTDriveToTargetXY extends SequentialCommandGroup {
-    private static final double INTX = 0;
-    private static final double INTY = 0;
     private limelightSubSystem m_Limelight;
 
   public INTDriveToTargetXY(Swervesubsystem m_Swerve, limelightSubSystem light, double x, double y){

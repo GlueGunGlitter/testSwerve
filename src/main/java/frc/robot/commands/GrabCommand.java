@@ -25,9 +25,6 @@ public class GrabCommand extends CommandBase {
     if(true) {
       m_Grapper.CloseGrap();
     }
-    else {
-      m_Grapper.ReleseGrap();
-    }
   }
 
   // Called once the command ends or is interrupted.

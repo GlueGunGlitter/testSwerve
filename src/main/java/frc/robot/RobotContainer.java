@@ -46,8 +46,8 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(m_driver, XboxController.Button.kLeftBumper.value);
 
     /* System Buttons */
-    private final JoystickButton grapGamePiece = new JoystickButton(m_driver, XboxController.Button.kA.value);
-    private final JoystickButton grapDropGamePiece = new JoystickButton(m_driver, XboxController.Button.kX.value);
+    private final JoystickButton ka = new JoystickButton(m_driver, XboxController.Button.kA.value);
+    private final JoystickButton kx = new JoystickButton(m_driver, XboxController.Button.kX.value);
     private final Trigger armMoveUpR = new Trigger(() -> m_driver.getRawAxis(3) > 0.1);
     private final Trigger armMoveDownL = new Trigger(() -> m_driver.getRawAxis(2) > 0.1);
 
@@ -86,21 +86,28 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
         /* System Buttons */
-        grapGamePiece.onTrue(Commands.run(() -> m_grapper.CloseGrap(), m_grapper))
-        .onFalse(Commands.runOnce(() -> m_grapper.StopGrapper(), m_grapper));
+        ka.onTrue(Commands.run(() -> m_arm.setposison(0)));
 
-        grapDropGamePiece.onTrue(Commands.run(() -> m_grapper.ReleseGrap(), m_grapper))
-        .onFalse(Commands.runOnce(() -> m_grapper.StopGrapper(), m_grapper));
+        kx.onTrue(Commands.run(() -> m_arm.setposison(90)));
 
-        armMoveUpR.onTrue(Commands.run(() -> m_arm.setposison(0), m_arm))
+        armMoveUpR.onTrue(Commands.run(() -> m_arm.tast1up(rotationAxis), m_arm))
         .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
 
-        armMoveDownL.onTrue(Commands.run(() -> m_arm.setSensorPosition(1), m_arm))
+        armMoveDownL.onTrue(Commands.run(() -> m_arm.test2(), m_arm))
         .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
 
-        d_Uppov.onTrue(new INTsetARMpostion(m_arm, m_Limelight,  90.0));
+        d_Uppov.onTrue(Commands.run(()-> m_arm.setSensorPosition(0)));
 
         d_Downpov.onTrue(new INTsetARMpostion(m_arm, m_Limelight,  0.0 ));
+
+        // d_Rahgtpov.onTrue(new SetARMPostionToPlace(m_arm, m_Limelight));
+
+        // d_Rahgtpov.onTrue(Commands.run(()-> m_arm.test2()).repeatedly());
+        // d_Rahgtpov.onFalse(Commands.run(()-> m_arm.stopARM()).repeatedly());
+
+
+        // d_Leftpov.onTrue(Commands.run(()-> m_arm.tast()));
+        // d_Leftpov.onFalse(Commands.run(()-> m_arm.stopARM()));
     }
 
     /**
@@ -110,6 +117,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new autoPathPlanner(s_Swerve, m_arm, m_grapper, m_Limelight);
+        return new autoPathPlanner(s_Swerve, m_arm);
     }
 }

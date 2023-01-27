@@ -28,26 +28,29 @@ public class ARMsubsystem extends SubsystemBase {
     motorM21.setSelectedSensorPosition(0);
 
     //limit motorM21
-    motorM21.configForwardSoftLimitThreshold(150000, 30);
-    motorM21.configReverseSoftLimitThreshold(0, 30);
-    motorM21.configForwardSoftLimitEnable(true, 0);
-    motorM21.configReverseSoftLimitEnable(true, 0);
+    // motorM21.configForwardSoftLimitThreshold(150000, 30);
+    // motorM21.configReverseSoftLimitThreshold(0, 30);
+    // motorM21.configForwardSoftLimitEnable(true, 0);
+    // motorM21.configReverseSoftLimitEnable(true, 0);
 
     //Deadband
     motorM21.configNeutralDeadband(0.1);
+
     
   
     //PIDmotor
     motorM21.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 30);
     motorM21.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 30);
-    motorM21.config_kP(0, 0.004, 30);
-    motorM21.config_kI(0, 0.000001, 30);
-    motorM21.config_kD(0, 0.004, 30);
+    motorM21.config_kP(0, 0.001, 30);
+    motorM21.config_kI(0, 0.0, 30);
+    motorM21.config_kD(0, 0.0, 30);
     motorM21.config_kF(0, 0.0, 30);
 
     //PIDSpeed/POWER
-    motorM21.configMotionCruiseVelocity(10000);
+    motorM21.configMotionCruiseVelocity(20000);
     motorM21.configMotionAcceleration(10000);
+
+    motorM21.setSensorPhase(true);
   }
 
   @Override
@@ -83,5 +86,12 @@ public class ARMsubsystem extends SubsystemBase {
   public double getposison() {
     double curretAngle = motorM21.getSelectedSensorPosition(0)/ 10000;
     return curretAngle;
+  }
+
+  public void tast1up(double speed) {
+    motorM21.set(speed);
+  }
+  public void test2() {
+    motorM21.set(-0.3);
   }
 }

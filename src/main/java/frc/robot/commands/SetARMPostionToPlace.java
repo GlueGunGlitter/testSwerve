@@ -32,15 +32,13 @@ public class SetARMPostionToPlace extends CommandBase {
   @Override
   public void execute() {
    if (statepos == true) {
-    if (m_Light.targetv() == true) {
      if (m_ARM.getSensorPosition() == 90000) {
        statepos = !statepos;
        this.end(isFinished());
      }
 
      else  {
-       m_ARM.setposison(90000);
-     }   
+       m_ARM.setposison(90000);   
     }
    }
    else if (statepos = false) {
