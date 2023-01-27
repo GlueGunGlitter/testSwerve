@@ -98,8 +98,9 @@ public class RobotContainer {
         armMoveDownL.onTrue(Commands.run(() -> m_arm.setSensorPosition(1), m_arm))
         .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
 
-        new JoystickButton(m_driver, Button.kL1.value)
-        .onTrue(new INTDriveToTargetXY(s_Swerve, m_Limelight , 1, 1));
+        d_Uppov.onTrue(new INTsetARMpostion(m_arm, m_Limelight,  90.0));
+
+        d_Downpov.onTrue(new INTsetARMpostion(m_arm, m_Limelight,  0.0 ));
     }
 
     /**

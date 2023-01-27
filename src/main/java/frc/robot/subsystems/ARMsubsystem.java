@@ -28,8 +28,8 @@ public class ARMsubsystem extends SubsystemBase {
     motorM21.setSelectedSensorPosition(0);
 
     //limit motorM21
-    motorM21.configForwardSoftLimitThreshold(300000, 30);
-    motorM21.configReverseSoftLimitThreshold(300000, 30);
+    motorM21.configForwardSoftLimitThreshold(150000, 30);
+    motorM21.configReverseSoftLimitThreshold(0, 30);
     motorM21.configForwardSoftLimitEnable(true, 0);
     motorM21.configReverseSoftLimitEnable(true, 0);
 
@@ -40,13 +40,13 @@ public class ARMsubsystem extends SubsystemBase {
     //PIDmotor
     motorM21.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 30);
     motorM21.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 30);
-    motorM21.config_kP(0, 0.0, 30);
-    motorM21.config_kI(0, 0.0, 30);
-    motorM21.config_kD(0, 0.0, 30);
+    motorM21.config_kP(0, 0.004, 30);
+    motorM21.config_kI(0, 0.000001, 30);
+    motorM21.config_kD(0, 0.004, 30);
     motorM21.config_kF(0, 0.0, 30);
 
     //PIDSpeed/POWER
-    motorM21.configMotionCruiseVelocity(20000);
+    motorM21.configMotionCruiseVelocity(10000);
     motorM21.configMotionAcceleration(10000);
   }
 
@@ -55,7 +55,7 @@ public class ARMsubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     motorM21.getSelectedSensorPosition();
     ShuffleboardTab tab = Shuffleboard.getTab("Shuffleboard");
-    SmartDashboard.putNumber("towerX", motorM21.getSelectedSensorPosition());
+    SmartDashboard.putNumber("angal", motorM21.getSelectedSensorPosition());
   }
 
   //SensorPosition
@@ -75,13 +75,13 @@ public class ARMsubsystem extends SubsystemBase {
   
   //mousion magic setPosision
   public void setposison(double Pos) {
-    double position = Pos * 1;
+    double position = Pos * 10000;
     motorM21.set(TalonFXControlMode.MotionMagic, position);
   }
   
   //get SensorPosition PID
   public double getposison() {
-    double curretAngle = motorM21.getSelectedSensorPosition(0)/ 1;
+    double curretAngle = motorM21.getSelectedSensorPosition(0)/ 10000;
     return curretAngle;
   }
 }

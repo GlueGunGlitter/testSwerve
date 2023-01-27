@@ -4,17 +4,16 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ARMsubsystem;
-import frc.robot.subsystems.limelightSubSystem;
+import frc.robot.subsystems.*;
 
-public class SetARMPostionToPlace extends CommandBase {
+public class INTsetARMpostion extends CommandBase {
+  private double PosAngal;
   /** Creates a new SetARMPostionToPlace. */
   private limelightSubSystem m_Light;
   private ARMsubsystem m_ARM;
-  private boolean statepos;
-  public SetARMPostionToPlace(ARMsubsystem ARM ,limelightSubSystem Light) {
+
+  public INTsetARMpostion(ARMsubsystem ARM ,limelightSubSystem Light , Double PosAngal) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_ARM = ARM;
     addRequirements(m_ARM);
@@ -24,35 +23,18 @@ public class SetARMPostionToPlace extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    statepos = true;
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   if (statepos == true) {
-    if (m_Light.targetv() == true) {
-     if (m_ARM.getSensorPosition() == 90000) {
-       statepos = !statepos;
-       this.end(isFinished());
-     }
-
-     else  {
-       m_ARM.setposison(90000);
-     }   
+    if (m_ARM.getSensorPosition() == PosAngal + 100000) {
+      this.end(isFinished());
     }
-   }
-   else if (statepos = false) {
-     if (m_ARM.getSensorPosition() < -50){
-       m_ARM.setSensorPosition(0);
-       statepos = !statepos;
-       this.end(isFinished());
-     }
-     else {
-      m_ARM.setposison(0);
-     }
-   } 
+
+    else  {
+      m_ARM.setposison(PosAngal);
+    }
   }
 
   // Called once the command ends or is interrupted.
