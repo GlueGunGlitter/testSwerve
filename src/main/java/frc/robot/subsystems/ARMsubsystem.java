@@ -47,7 +47,7 @@ public class ARMsubsystem extends SubsystemBase {
     motorM21.config_kF(0, 0.0, 30);
 
     //PIDSpeed/POWER
-    motorM21.configMotionCruiseVelocity(20000);
+    motorM21.configMotionCruiseVelocity(15000);
     motorM21.configMotionAcceleration(10000);
 
     motorM21.setSensorPhase(true);
@@ -56,7 +56,6 @@ public class ARMsubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    motorM21.getSelectedSensorPosition();
     ShuffleboardTab tab = Shuffleboard.getTab("Shuffleboard");
     SmartDashboard.putNumber("angal", motorM21.getSelectedSensorPosition());
   }
@@ -78,20 +77,17 @@ public class ARMsubsystem extends SubsystemBase {
   
   //mousion magic setPosision
   public void setposison(double Pos) {
-    double position = Pos * 10000;
+    double position = Pos * 1000;
     motorM21.set(TalonFXControlMode.MotionMagic, position);
   }
   
   //get SensorPosition PID
   public double getposison() {
-    double curretAngle = motorM21.getSelectedSensorPosition(0)/ 10000;
+    double curretAngle = motorM21.getSelectedSensorPosition(0)/ 1000;
     return curretAngle;
   }
 
   public void tast1up(double speed) {
     motorM21.set(speed);
-  }
-  public void test2() {
-    motorM21.set(-0.3);
   }
 }

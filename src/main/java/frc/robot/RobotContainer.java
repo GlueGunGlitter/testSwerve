@@ -90,15 +90,15 @@ public class RobotContainer {
 
         kx.onTrue(Commands.run(() -> m_arm.setposison(90)));
 
-        armMoveUpR.onTrue(Commands.run(() -> m_arm.tast1up(rotationAxis), m_arm))
+        armMoveUpR.onTrue(Commands.run(() -> m_arm.tast1up(0.5), m_arm))
         .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
 
-        armMoveDownL.onTrue(Commands.run(() -> m_arm.test2(), m_arm))
+        armMoveDownL.onTrue(Commands.run(() -> m_arm.tast1up(-0.5), m_arm))
         .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
 
         d_Uppov.onTrue(Commands.run(()-> m_arm.setSensorPosition(0)));
 
-        d_Downpov.onTrue(new INTsetARMpostion(m_arm, m_Limelight,  0.0 ));
+        d_Downpov.onTrue(new INTsetARMpostion(m_arm, m_Limelight,  30.0 ));
 
         // d_Rahgtpov.onTrue(new SetARMPostionToPlace(m_arm, m_Limelight));
 
