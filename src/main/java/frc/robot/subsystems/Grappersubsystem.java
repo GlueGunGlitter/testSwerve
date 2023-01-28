@@ -59,11 +59,9 @@ public class Grappersubsystem extends SubsystemBase {
   public void StopGrapper() {
     motorM19.set(0);
   }
-  
-  //Close Grap
-  public void GrapORRelis(double speed) {
-    motorM19.set(speed); //cub - to relis for cone + to relis//
 
+  public int getProximity() {
+    return m_colorSensor.getProximity();
   }
 
   public void speed(double speed) {
