@@ -4,8 +4,8 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.ColorMatch;
@@ -25,18 +25,21 @@ public class Grappersubsystem extends SubsystemBase {
   
  
   /** Creates a new Grapper. */
-  WPI_TalonFX motorM0 = new WPI_TalonFX(19);
+  WPI_TalonFX motorM19 = new WPI_TalonFX(19);
+  boolean stateGrapper;
   ColorMatch m_colorMatcher = new ColorMatch();
 
   I2C.Port i2cPort = I2C.Port.kOnboard;
   ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
   int proximity = m_colorSensor.getProximity();
 
-  public Grappersubsystem() {
-    //reset config motorM0
-    motorM0.configFactoryDefault();
-    motorM0.setNeutralMode(NeutralMode.Brake);
 
+  public Grappersubsystem() {
+    //reset config motorM19
+    motorM19.configFactoryDefault();
+    motorM19.setNeutralMode(NeutralMode.Brake);
+
+    stateGrapper = true;
   }
 
   
@@ -48,29 +51,32 @@ public class Grappersubsystem extends SubsystemBase {
       
     SmartDashboard.putNumber("Proximity", getProximity());
 
+    SmartDashboard.putBoolean("IN KON / AUT KUB", this.getstate());
+    SmartDashboard.putBoolean("AUT KON / IN KUB", !this.getstate());
   }
 
-
-
-  public int getProximity() {
-    return m_colorSensor.getProximity();
-  }
-  //Stop motorM0
+  //Stop motorM19
   public void StopGrapper() {
-    motorM0.set(0);
+    motorM19.set(0);
   }
   
   //Close Grap
+  public void GrapORRelis(double speed) {
+    motorM19.set(speed); //cub - to relis for cone + to relis//
 
+  }
 
-  public void CloseGrap(double speed) {
-    motorM0.set(speed);
+  public void speed(double speed) {
+    motorM19.set(speed);
+  }
+
+  public boolean getstate() {
+    return this.stateGrapper;
   }
 
 
-  //Relese Grap
-  public void ReleseGrap(double speed) {
-    motorM0.set(speed);
+  public void changstate() {
+    this.stateGrapper = !stateGrapper;
   }
 }
 
