@@ -13,7 +13,7 @@ public class INTsetARMpostion extends CommandBase {
   private limelightSubSystem m_Light;
   private ARMsubsystem m_ARM;
 
-  public INTsetARMpostion(ARMsubsystem ARM ,limelightSubSystem Light , Double PosAngal) {
+  public INTsetARMpostion(ARMsubsystem ARM ,limelightSubSystem Light , int i) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_ARM = ARM;
     addRequirements(m_ARM);
@@ -21,7 +21,10 @@ public class INTsetARMpostion extends CommandBase {
     addRequirements(m_Light);
   }
 
-  // Called when the command is initially scheduled.
+  public INTsetARMpostion(ARMsubsystem m_arm2, double d) {
+}
+
+// Called when the command is initially scheduled.
   @Override
   public void initialize() {
     

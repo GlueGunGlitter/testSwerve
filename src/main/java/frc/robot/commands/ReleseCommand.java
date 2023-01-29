@@ -23,7 +23,7 @@ public class ReleseCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_ARM.getSensorPosition() == 1) {
+    if (m_ARM.getSensorPosition() == 80) {
       m_Grapper.ReleseGrap();
     }
   }

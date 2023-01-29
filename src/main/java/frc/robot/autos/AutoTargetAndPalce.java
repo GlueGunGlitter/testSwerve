@@ -28,6 +28,6 @@ public class AutoTargetAndPalce extends SequentialCommandGroup {
     m_Light = light;
     addRequirements(m_Light);
     addCommands(new DriveToTarget(light, swerve));
-    addCommands(new placeCommand(light, ARM, grapper));
+    addCommands(new placeCommand(ARM, grapper));
   }
 }

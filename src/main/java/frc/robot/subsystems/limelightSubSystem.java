@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.util.*;
 
 public class limelightSubSystem extends SubsystemBase {
     private NetworkTable NetworkTable;
@@ -32,6 +33,9 @@ public class limelightSubSystem extends SubsystemBase {
         SmartDashboard.putNumber("LimelightY", y);
         SmartDashboard.putNumber("LimelightArea", area);
         SmartDashboard.putNumber("Limelighttv", tv);
+
+        SmartDashboard.putNumber("distans", util.kalculatdisrtans(x));
+        SmartDashboard.putNumber("dis", util.distanceFromTarget(y));
         
     }
 

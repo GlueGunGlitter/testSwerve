@@ -28,12 +28,8 @@ import frc.lib.util.*;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class INTDriveToTargetXY extends SequentialCommandGroup {
-    private limelightSubSystem m_Limelight;
 
-  public INTDriveToTargetXY(Swervesubsystem m_Swerve, limelightSubSystem light, double x, double y){
-    m_Limelight = light;
-    addRequirements(m_Limelight);
-
+  public INTDriveToTargetXY(Swervesubsystem m_Swerve, double x, double y){
 
     TrajectoryConfig config =
         new TrajectoryConfig(
@@ -42,7 +38,7 @@ public class INTDriveToTargetXY extends SequentialCommandGroup {
             .setKinematics(Constants.Swerve.swerveKinematics);
        
     // An example trajectory to follow.  All units in meters.
-    Trajectory exampleTrajectory = util.getTraj(config, 1, 1, m_Swerve.getPose());
+    Trajectory exampleTrajectory = util.getTraj(config, x, y, m_Swerve.getPose());
 
         var thetaController =
         new ProfiledPIDController(
@@ -62,7 +58,6 @@ public class INTDriveToTargetXY extends SequentialCommandGroup {
 
 
     addCommands(
-        new InstantCommand(() -> m_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
         swerveControllerCommand
     );
 }

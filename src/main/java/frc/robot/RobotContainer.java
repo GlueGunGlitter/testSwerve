@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.lib.util.util;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -70,7 +71,7 @@ public class RobotContainer {
                 () -> robotCentric.getAsBoolean()
             )
         );
-
+        
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -86,9 +87,11 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
         /* System Buttons */
-        ka.onTrue(Commands.run(() -> m_arm.setposison(0)));
 
-        kx.onTrue(Commands.run(() -> m_arm.setposison(90)));
+        double y = util.kalculatdisrtans(m_Limelight.targetX());
+        ka.onTrue(new DriveXY(s_Swerve, m_Limelight));
+
+        kx.onTrue(new SetARMPostionToPlace(m_arm));
 
         armMoveUpR.onTrue(Commands.run(() -> m_arm.tast1up(0.5), m_arm))
         .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
@@ -96,18 +99,14 @@ public class RobotContainer {
         armMoveDownL.onTrue(Commands.run(() -> m_arm.tast1up(-0.5), m_arm))
         .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
 
-        d_Uppov.onTrue(Commands.run(()-> m_arm.setSensorPosition(0)));
+        d_Uppov.onTrue(Commands.runOnce(()-> m_arm.setSensorPosition(0)));
 
-        d_Downpov.onTrue(new INTsetARMpostion(m_arm, m_Limelight,  30.0 ));
+        d_Downpov.onTrue(new INTsetARMpostion(m_arm, 80.0 ));
 
-        // d_Rahgtpov.onTrue(new SetARMPostionToPlace(m_arm, m_Limelight));
+    }
 
-        // d_Rahgtpov.onTrue(Commands.run(()-> m_arm.test2()).repeatedly());
-        // d_Rahgtpov.onFalse(Commands.run(()-> m_arm.stopARM()).repeatedly());
-
-
-        // d_Leftpov.onTrue(Commands.run(()-> m_arm.tast()));
-        // d_Leftpov.onFalse(Commands.run(()-> m_arm.stopARM()));
+    public Swervesubsystem getSwerveSubsystem() {
+        return s_Swerve;
     }
 
     /**

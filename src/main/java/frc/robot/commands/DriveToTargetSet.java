@@ -20,6 +20,6 @@ public class DriveToTargetSet extends SequentialCommandGroup {
     addRequirements(m_Limelight);
     m_Swerve = swerve;
     addRequirements(m_Swerve);
-    addCommands(new INTDriveToTargetXY(swerve, light, 0, 0));
+    addCommands(new INTDriveToTargetXY(swerve, 0, 1));
   }
 }

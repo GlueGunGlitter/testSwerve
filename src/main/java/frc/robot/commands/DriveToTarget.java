@@ -21,7 +21,7 @@ public class DriveToTarget extends SequentialCommandGroup {
     m_Swerve = swerve;
     addRequirements(m_Swerve);
 
-    addCommands( new INTDriveToTargetXY(swerve, light, m_Limelight.targetX(), m_Limelight.targetY()).until(() -> m_Limelight.targetX() > 30 && m_Limelight.targetX() < -30));
+    addCommands( new INTDriveToTargetXY(swerve, m_Limelight.targetX(), m_Limelight.targetY()).until(() -> m_Limelight.targetX() > 30 && m_Limelight.targetX() < -30));
 
     addCommands( new DriveToTarget2(light, swerve).until(() -> m_Limelight.targetX() < 30 && m_Limelight.targetX() > -30));
   }
