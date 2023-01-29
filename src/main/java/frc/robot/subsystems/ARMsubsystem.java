@@ -4,13 +4,8 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -24,9 +19,6 @@ public class ARMsubsystem extends SubsystemBase {
   WPI_TalonFX motorM21 = new WPI_TalonFX(21);
   Encoder encoder = new Encoder(0, 1, false, EncodingType.k4X);
   boolean stateARM;
-  
-  // GenericEntry angal = Shuffleboard.getTab("Shuffleboard")
-  //   .add("angal", 0).getEntry();
 
   public ARMsubsystem() {
     //config motorM21
@@ -39,9 +31,7 @@ public class ARMsubsystem extends SubsystemBase {
 
     //limit motorM21
     motorM21.configForwardSoftLimitThreshold(85000, 30);
-    // motorM21.configReverseSoftLimitThreshold(0, 30);
-    motorM21.configForwardSoftLimitEnable(true, 0);
-    // motorM21.configReverseSoftLimitEnable(true, 0);
+    motorM21.configForwardSoftLimitEnable(true, 6000);
 
     //Deadband
     motorM21.configNeutralDeadband(0.1);
@@ -62,21 +52,12 @@ public class ARMsubsystem extends SubsystemBase {
 
     stateARM = true;
 
-    // Shuffleboard.selectTab("Shuffleboard");
-    // Shuffleboard.getTab("Shuffleboard").add(motorM21);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    // Shuffleboard.getTab("Shuffleboard")
-    // .add("angal", motorM21.getSelectedSensorPosition());
-    ShuffleboardTab tab = Shuffleboard.getTab("Shuffleboard");
     SmartDashboard.putNumber("angal", motorM21.getSelectedSensorPosition());
     SmartDashboard.putNumber("encoder", encoder.getRaw());
-    // Shuffleboard.getTab("Shuffleboard").add(motorM21);
-    // angal.setDouble(motorM21.getSelectedSensorPosition());
-    // Shuffleboard.getTab("Shuffleboard"); 
   }
 
   //SensorPosition
@@ -107,17 +88,15 @@ public class ARMsubsystem extends SubsystemBase {
   }
 
 
-public boolean getstate() {
+  public boolean getstate() {
     return this.stateARM;
-}
+  }
 
-public void changstate() {
-  this.stateARM = !stateARM;
-}
+  public void changstate() {
+    this.stateARM = !stateARM;
+  }
 
   public void tast1up(double speed) {
     motorM21.set(speed);
   }
-
-
 }

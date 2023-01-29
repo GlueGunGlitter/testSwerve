@@ -8,11 +8,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.*;
 
 public class limelightSubSystem extends SubsystemBase {
+    
     private NetworkTable NetworkTable;
     private int statepip;
+
     public limelightSubSystem() {
-    NetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
-    NetworkTable.getEntry("ledMode").setNumber(0);
+      NetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
+      NetworkTable.getEntry("ledMode").setNumber(0);
     }
 
     public void init() {

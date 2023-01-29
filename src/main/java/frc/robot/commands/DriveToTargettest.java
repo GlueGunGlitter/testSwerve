@@ -22,7 +22,9 @@ public class DriveToTargettest extends SequentialCommandGroup {
     addRequirements(m_Limelight);
     m_Swerve = swerve;
     addRequirements(m_Swerve);
+
     double y = util.kalculatdisrtans(m_Limelight.targetX());
+    
     addCommands(new INTDriveToTargetXY(swerve, 0,  1));
     
   }

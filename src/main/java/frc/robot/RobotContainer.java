@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -49,9 +48,9 @@ public class RobotContainer {
     /* System Buttons */
     private final JoystickButton ka = new JoystickButton(m_driver, XboxController.Button.kA.value);
     private final JoystickButton kx = new JoystickButton(m_driver, XboxController.Button.kX.value);
+    private final JoystickButton kB = new JoystickButton(m_driver, XboxController.Button.kB.value);
     private final Trigger armMoveUpR = new Trigger(() -> m_driver.getRawAxis(3) > 0.1);
     private final Trigger armMoveDownL = new Trigger(() -> m_driver.getRawAxis(2) > 0.1);
-    private final JoystickButton kB = new JoystickButton(m_driver, XboxController.Button.kB.value);
 
     /* Subsystems */
     private final Swervesubsystem s_Swerve = new Swervesubsystem();
@@ -90,10 +89,10 @@ public class RobotContainer {
 
         double y = util.kalculatdisrtans(m_Limelight.targetX());
 
-        ka.onTrue(Commands.runOnce(()->m_grapper.CloseGrap()));
+        ka.onTrue(Commands.runOnce(()->m_grapper.speed(-0.80)));
         ka.onFalse(Commands.runOnce(()->m_grapper.StopGrapper()));
 
-        kx.onTrue(Commands.runOnce(()->m_grapper.ReleseGrap()));
+        kx.onTrue(Commands.runOnce(()->m_grapper.speed(0.80)));
         kx.onFalse(Commands.runOnce(()->m_grapper.StopGrapper()));
 
         
