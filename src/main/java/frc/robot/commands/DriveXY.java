@@ -34,8 +34,7 @@ public class DriveXY extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     m_swerve = swerve;
     addRequirements(m_swerve);
-    m_Limelight = light;
-    addRequirements(m_Limelight);
+
     
     double y = -util.distanceFromTarget(m_Limelight.targetY());
 

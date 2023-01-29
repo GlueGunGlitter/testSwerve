@@ -23,7 +23,7 @@ public class ARMsubsystem extends SubsystemBase {
   /** Creates a new ARMsubsystem. */
   WPI_TalonFX motorM21 = new WPI_TalonFX(21);
   Encoder encoder = new Encoder(0, 1, false, EncodingType.k4X);
-  boolean state;
+  boolean stateARM;
   
   // GenericEntry angal = Shuffleboard.getTab("Shuffleboard")
   //   .add("angal", 0).getEntry();
@@ -60,7 +60,7 @@ public class ARMsubsystem extends SubsystemBase {
 
     motorM21.setSensorPhase(true);
 
-    state = true;
+    stateARM = true;
 
     // Shuffleboard.selectTab("Shuffleboard");
     // Shuffleboard.getTab("Shuffleboard").add(motorM21);
@@ -107,12 +107,12 @@ public class ARMsubsystem extends SubsystemBase {
   }
 
 
-public boolean getState() {
-    return this.state;
+public boolean getstate() {
+    return this.stateARM;
 }
 
-public void changState() {
-  this.state = !state;
+public void changstate() {
+  this.stateARM = !stateARM;
 }
 
   public void tast1up(double speed) {

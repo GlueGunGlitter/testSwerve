@@ -51,7 +51,7 @@ public class RobotContainer {
     private final JoystickButton kx = new JoystickButton(m_driver, XboxController.Button.kX.value);
     private final Trigger armMoveUpR = new Trigger(() -> m_driver.getRawAxis(3) > 0.1);
     private final Trigger armMoveDownL = new Trigger(() -> m_driver.getRawAxis(2) > 0.1);
-
+    private final JoystickButton kB = new JoystickButton(m_driver, XboxController.Button.kB.value);
 
     /* Subsystems */
     private final Swervesubsystem s_Swerve = new Swervesubsystem();
@@ -89,9 +89,16 @@ public class RobotContainer {
         /* System Buttons */
 
         double y = util.kalculatdisrtans(m_Limelight.targetX());
-        ka.onTrue(new DriveXY(s_Swerve, m_Limelight));
 
-        kx.onTrue(new SetARMPostionToPlace(m_arm));
+        ka.onTrue(Commands.runOnce(()->m_grapper.CloseGrap()));
+        ka.onFalse(Commands.runOnce(()->m_grapper.StopGrapper()));
+
+        kx.onTrue(Commands.runOnce(()->m_grapper.ReleseGrap()));
+        kx.onFalse(Commands.runOnce(()->m_grapper.StopGrapper()));
+
+        
+        kB.onTrue(new SetARMpotionToPlace(m_arm));
+
 
         armMoveUpR.onTrue(Commands.run(() -> m_arm.tast1up(0.5), m_arm))
         .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
@@ -100,8 +107,6 @@ public class RobotContainer {
         .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
 
         d_Uppov.onTrue(Commands.runOnce(()-> m_arm.setSensorPosition(0)));
-
-        d_Downpov.onTrue(new INTsetARMpostion(m_arm, 80.0 ));
 
     }
 

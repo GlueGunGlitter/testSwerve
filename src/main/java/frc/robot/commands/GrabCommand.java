@@ -23,7 +23,12 @@ public class GrabCommand extends CommandBase {
   @Override
   public void execute() {
     if(true) {
-      m_Grapper.CloseGrap();
+      if (m_Grapper.getstate()) {
+        m_Grapper.speed(-0.80);
+      }
+      else {
+        m_Grapper.speed(80);
+      }
     }
   }
 

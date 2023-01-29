@@ -11,11 +11,14 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class Grappersubsystem extends SubsystemBase {
   /** Creates a new Grapper. */
-  WPI_TalonFX motorM0 = new WPI_TalonFX(0);
+  WPI_TalonFX motorM0 = new WPI_TalonFX(19);
+  boolean stateGrapper;
   public Grappersubsystem() {
     //reset config motorM0
     motorM0.configFactoryDefault();
     motorM0.setNeutralMode(NeutralMode.Brake);
+
+    stateGrapper = true;
   }
 
   @Override
@@ -29,12 +32,18 @@ public class Grappersubsystem extends SubsystemBase {
   }
   
   //Close Grap
-  public void CloseGrap() {
-    motorM0.set(1);
-  }
+  public void GrapORRelis(double speed) {
+    motorM0.set(speed); //cub - to relis for cone + to relis//
 
-  //Relese Grap
-  public void ReleseGrap() {
-    motorM0.set(1);
+    }
+  public void speed(double speed) {
+    motorM0.set(speed);
   }
+  public boolean getstate() {
+    return this.stateGrapper;
+}
+
+public void changstate() {
+  this.stateGrapper = !stateGrapper;
+}
 }
