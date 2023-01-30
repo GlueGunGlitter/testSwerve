@@ -4,19 +4,20 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class Grappersubsystem extends SubsystemBase {
   /** Creates a new Grapper. */
-  WPI_TalonFX motorM0 = new WPI_TalonFX(19);
+  WPI_TalonFX motorM19 = new WPI_TalonFX(19);
   boolean stateGrapper;
 
   public Grappersubsystem() {
-    //reset config motorM0
-    motorM0.configFactoryDefault();
-    motorM0.setNeutralMode(NeutralMode.Brake);
+    //reset config motorM19
+    motorM19.configFactoryDefault();
+    motorM19.setNeutralMode(NeutralMode.Brake);
 
     stateGrapper = true;
   }
@@ -24,21 +25,23 @@ public class Grappersubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("IN KON / AUT KUB", this.getstate());
+    SmartDashboard.putBoolean("AUT KON / IN KUB", !this.getstate());
   }
 
-  //Stop motorM0
+  //Stop motorM19
   public void StopGrapper() {
-    motorM0.set(0);
+    motorM19.set(0);
   }
   
   //Close Grap
   public void GrapORRelis(double speed) {
-    motorM0.set(speed); //cub - to relis for cone + to relis//
+    motorM19.set(speed); //cub - to relis for cone + to relis//
 
   }
 
   public void speed(double speed) {
-    motorM0.set(speed);
+    motorM19.set(speed);
   }
 
   public boolean getstate() {
