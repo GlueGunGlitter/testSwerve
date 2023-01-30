@@ -2,34 +2,36 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
-import frc.robot.subsystems.Grappersubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+package frc.robot.commands.setCommands;
 
-public class GrabCommand extends CommandBase {
-  /** Creates a new GrabCommand. */
-  private Grappersubsystem m_Grapper;
-  public GrabCommand(Grappersubsystem grapper) {
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.*;
+
+public class setARMpostion extends CommandBase {
+  private double PosAngal;
+  /** Creates a new SetARMPostionToPlace. */
+  private limelightSubSystem m_Light;
+  private ARMsubsystem m_ARM;
+
+  public setARMpostion(ARMsubsystem ARM ,limelightSubSystem Light , int i) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_Grapper = grapper;
-    addRequirements(m_Grapper);
+    m_ARM = ARM;
+    addRequirements(m_ARM);
+    m_Light = Light;
+    addRequirements(m_Light);
   }
 
-  // Called when the command is initially scheduled.
+  public setARMpostion(ARMsubsystem m_arm2, double d) {
+}
+
+// Called when the command is initially scheduled.
   @Override
   public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(true) {
-      if (m_Grapper.getstate()) {
-        m_Grapper.speed(-0.80);
-      }
-      else {
-        m_Grapper.speed(80);
-      }
-    }
+    m_ARM.setposison(PosAngal);
   }
 
   // Called once the command ends or is interrupted.
