@@ -28,8 +28,8 @@ public class autoPathPlanner extends SequentialCommandGroup {
         Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
         // 3. Define PID controllers for tracking trajectory
-        PIDController xController = new PIDController(0, 0.0, 0);
-        PIDController yController = new PIDController(0, 0.0, 0);
+        PIDController xController = new PIDController(Constants.AutoConstants.kPXController, 0.0, 0);
+        PIDController yController = new PIDController(Constants.AutoConstants.kPYController, 0.0, 0);
         PIDController zController = new PIDController(0, 0.0, 0);
 
         SequentialCommandGroup arm = new SequentialCommandGroup(
@@ -55,7 +55,7 @@ public class autoPathPlanner extends SequentialCommandGroup {
         addCommands(
             new InstantCommand(() -> s_Swerve.zeroGyro()),
             new InstantCommand(() -> s_Swerve.resetOdometry(examplePath.getInitialHolonomicPose())),
-            follow,
+            ppPath,
             new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()));
     }
 }
