@@ -19,9 +19,9 @@ import edu.wpi.first.wpilibj.util.Color;
 
 
 public class Grappersubsystem extends SubsystemBase {
-   Color kBlankTarget = new Color(0,0,0);
- Color kPurpleTarget = new Color(128,0,128);
- Color kYellowTarget = new Color(255,255,0);
+  Color kBlankTarget = new Color(0,0,0);
+  Color kPurpleTarget = new Color(128,0,128);
+  Color kYellowTarget = new Color(255,255,0);
   
  
   /** Creates a new Grapper. */
