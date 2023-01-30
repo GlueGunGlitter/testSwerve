@@ -46,13 +46,11 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(m_driver, XboxController.Button.kLeftBumper.value);
 
     /* System Buttons */
-    private final JoystickButton grapGamePiece = new JoystickButton(m_driver, XboxController.Button.kA.value);
+    private final JoystickButton kA = new JoystickButton(m_driver, XboxController.Button.kA.value);
     private final JoystickButton grapDropGamePiece = new JoystickButton(m_driver, XboxController.Button.kX.value);
     private final Trigger armMoveUpR = new Trigger(() -> m_driver.getRawAxis(3) > 0.1);
     private final Trigger armMoveDownL = new Trigger(() -> m_driver.getRawAxis(2) > 0.1);
-
-
-    /* Subsystems */
+   /* Subsystems */
     private final Swervesubsystem s_Swerve = new Swervesubsystem();
     private final Grappersubsystem m_grapper = new Grappersubsystem();
     private final ARMsubsystem m_arm = new ARMsubsystem();
@@ -86,20 +84,20 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
         /* System Buttons */
-        grapGamePiece.onTrue(Commands.run(() -> m_grapper.CloseGrap(), m_grapper))
+        kA.onTrue(new GrabCommand(m_grapper));
+       
+
+        grapDropGamePiece.onTrue(Commands.run(() -> m_grapper.ReleseGrap(1), m_grapper))
         .onFalse(Commands.runOnce(() -> m_grapper.StopGrapper(), m_grapper));
 
-        grapDropGamePiece.onTrue(Commands.run(() -> m_grapper.ReleseGrap(), m_grapper))
-        .onFalse(Commands.runOnce(() -> m_grapper.StopGrapper(), m_grapper));
-
-        armMoveUpR.onTrue(Commands.run(() -> m_arm.setposison(0), m_arm))
+        armMoveUpR.onTrue(Commands.run(() -> m_arm.startARM(), m_arm))
         .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
 
-        armMoveDownL.onTrue(Commands.run(() -> m_arm.setSensorPosition(1), m_arm))
+        armMoveDownL.onTrue(Commands.run(() -> m_arm.reverseARM(), m_arm))
         .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
 
-        new JoystickButton(m_driver, Button.kL1.value)
-        .onTrue(new INTDriveToTargetXY(s_Swerve, m_Limelight , 1, 1));
+        // new JoystickButton(m_driver, Button.kL1.value)
+        // .onTrue(new INTDriveToTargetXY(s_Swerve, m_Limelight , 1, 1));
     }
 
     /**

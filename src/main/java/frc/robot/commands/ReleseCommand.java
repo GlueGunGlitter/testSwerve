@@ -24,7 +24,7 @@ public class ReleseCommand extends CommandBase {
   @Override
   public void initialize() {
     if (m_ARM.getSensorPosition() == 1) {
-      m_Grapper.ReleseGrap();
+      m_Grapper.ReleseGrap(1);
     }
   }
 

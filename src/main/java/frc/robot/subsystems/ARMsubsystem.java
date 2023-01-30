@@ -73,6 +73,14 @@ public class ARMsubsystem extends SubsystemBase {
     motorM21.set(0);
   }
   
+  public void startARM() {
+    motorM21.set(0.5);
+  }
+
+  public void reverseARM() {
+    motorM21.set(-1);
+  }
+
   //mousion magic setPosision
   public void setposison(double Pos) {
     double position = Pos * 1;
