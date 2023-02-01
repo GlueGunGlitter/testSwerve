@@ -24,10 +24,10 @@ public class ARMsubsystem extends SubsystemBase {
     //config motorM21
     motorM21.configFactoryDefault();
     motorM21.setNeutralMode(NeutralMode.Brake);
-    motorM21.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor ,0 ,0);
 
     //SensorPosition get
     motorM21.setSelectedSensorPosition(0);
+    motorM21.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor ,0 ,0);
 
     //limit motorM21
     motorM21.configForwardSoftLimitThreshold(85000, 30);
@@ -45,11 +45,12 @@ public class ARMsubsystem extends SubsystemBase {
     motorM21.config_kF(0, 0.0, 30); //0.0
 
     //PIDSpeed/POWER
-    motorM21.configMotionCruiseVelocity(12500);
-    motorM21.configMotionAcceleration(7500);
+    motorM21.configMotionCruiseVelocity(5000);
+    motorM21.configMotionAcceleration(2500);
 
     motorM21.setSensorPhase(true);
 
+    //state
     stateARM = true;
 
   }
@@ -58,6 +59,7 @@ public class ARMsubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("angal", motorM21.getSelectedSensorPosition());
     SmartDashboard.putNumber("encoder", encoder.getRaw());
+    SmartDashboard.putString("control", motorM21.getControlMode().toString());
   }
 
   //SensorPosition
@@ -74,14 +76,6 @@ public class ARMsubsystem extends SubsystemBase {
   public void stopARM() {
     motorM21.set(0);
   }
-  
-  public void startARM() {
-    motorM21.set(0.5);
-  }
-
-  public void reverseARM() {
-    motorM21.set(-1);
-  }
 
   //mousion magic setPosision
   public void setposison(double Pos) {
@@ -95,16 +89,18 @@ public class ARMsubsystem extends SubsystemBase {
     return curretAngle;
   }
 
-
+  //get state ARM
   public boolean getstate() {
     return this.stateARM;
   }
 
+  //Chang state ARM
   public void changstate() {
     this.stateARM = !stateARM;
   }
 
-  public void tast1up(double speed) {
+  //test (delete bifor start the תחרות)
+  public void set(double speed) {
     motorM21.set(speed);
   }
 }

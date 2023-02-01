@@ -5,17 +5,13 @@
 package frc.robot.commands.GrapAndPlace;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Grappersubsystem;
-import frc.robot.subsystems.ARMsubsystem;
-public class ReleseCommand extends CommandBase {
-  /** Creates a new ReleseCommand. */
-  private Grappersubsystem m_Grapper;
-  private ARMsubsystem m_ARM;
+import frc.robot.subsystems.*;
 
-  public ReleseCommand(Grappersubsystem grapper , ARMsubsystem ARM) {
+public class SetARMpostionToPlace extends CommandBase {
+  /** Creates a new SetARMpostionToPlace. */
+  private ARMsubsystem m_ARM;
+  public SetARMpostionToPlace(ARMsubsystem ARM) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_Grapper = grapper;
-    addRequirements(m_Grapper);
     m_ARM = ARM;
     addRequirements(m_ARM);
   }
@@ -23,19 +19,23 @@ public class ReleseCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_ARM.getSensorPosition() > 80000) {
-      if (m_Grapper.getstate()) {
-        m_Grapper.speed(-0.80);
-      }
-      else {
-        m_Grapper.speed(80);
-      }
+    if (m_ARM.getstate()) {
+      m_ARM.setposison(81);
+      m_ARM.changstate();
+   }
+   else {
+      m_ARM.setposison(10);
+      m_ARM.changstate();
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if(m_ARM.getposison() >= 30) {
+      
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

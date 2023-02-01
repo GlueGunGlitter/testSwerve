@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.util.util;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
-import frc.robot.commands.GrapAndPlace.SetARMpotionToPlace;
+import frc.robot.commands.GrapAndPlace.GrapOrPlace;
+import frc.robot.commands.GrapAndPlace.SetARMpostionToPlace;
+import frc.robot.commands.GrapAndPlace.placeCommandGroop;
 import frc.robot.subsystems.*;
 
 /**
@@ -84,24 +86,23 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
+        
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
         /* System Buttons */
-
         double y = util.kalculatdisrtans(m_Limelight.targetX());
 
         kY.onTrue(Commands.runOnce(()-> m_grapper.changstate()));
 
-        ka.onTrue(Commands.runOnce(()->m_grapper.speed(-0.80)));
+        ka.onTrue(new GrapOrPlace(m_arm, m_grapper));
         ka.onFalse(Commands.runOnce(()->m_grapper.StopGrapper()));
 
-        kx.onTrue(Commands.runOnce(()->m_grapper.speed(0.80)));
-        kx.onFalse(Commands.runOnce(()->m_grapper.StopGrapper()));
+        kx.onTrue(new placeCommandGroop(m_arm, m_grapper));
 
-        kB.onTrue(new SetARMpotionToPlace(m_arm));
+        kB.onTrue(new SetARMpostionToPlace(m_arm));
 
-        armMoveDownL.onTrue(Commands.run(() -> m_arm.tast1up(-0.5), m_arm))
+        armMoveDownL.onTrue(Commands.run(() -> m_arm.set(-0.2), m_arm))
         .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
 
         d_Uppov.onTrue(Commands.runOnce(()-> m_arm.setSensorPosition(0)));
