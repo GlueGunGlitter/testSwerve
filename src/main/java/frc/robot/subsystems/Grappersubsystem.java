@@ -8,8 +8,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.revrobotics.CIEColor;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorSensorV3;
+import com.revrobotics.ColorSensorV3.RawColor;
+
+import edu.wpi.first.math.trajectory.Trajectory.State;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
@@ -30,7 +35,10 @@ public class Grappersubsystem extends SubsystemBase {
   I2C.Port i2cPort = I2C.Port.kOnboard;
   ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
   int proximity = m_colorSensor.getProximity();
-
+  int getBlue = m_colorSensor.getBlue() -250;
+  int getGreen = m_colorSensor.getGreen() -400;
+  int getRed = m_colorSensor.getRed() -200;
+  double getIR = m_colorSensor.getIR();
 
   public Grappersubsystem() {
     //reset config motorM19
@@ -46,9 +54,13 @@ public class Grappersubsystem extends SubsystemBase {
    */
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Proximity", getProximity());
-    SmartDashboard.putBoolean("IN KON / AUT KUB", this.getstate());
-    SmartDashboard.putBoolean("AUT KON / IN KUB", !this.getstate());
+    SmartDashboard.putNumber("Proximity", m_colorSensor.getProximity());
+    SmartDashboard.putNumber("getBlue", m_colorSensor.getBlue());
+    SmartDashboard.putNumber("getGreen", m_colorSensor.getGreen());
+    SmartDashboard.putNumber("getRed", m_colorSensor.getRed());
+    SmartDashboard.putNumber("getIR", m_colorSensor.getIR());
+    SmartDashboard.putBoolean("KON", this.getstate());
+    SmartDashboard.putBoolean("KUB", !this.getstate());
   }
 
   //Stop motorM19
@@ -71,6 +83,10 @@ public class Grappersubsystem extends SubsystemBase {
 
   public void changstate() {
     this.stateGrapper = !stateGrapper;
+  }
+
+  public void setstate(Boolean tuful) {
+    this.stateGrapper = tuful;
   }
 }
 

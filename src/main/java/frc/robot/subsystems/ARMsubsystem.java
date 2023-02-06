@@ -4,6 +4,10 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,6 +23,7 @@ public class ARMsubsystem extends SubsystemBase {
   WPI_TalonFX motorM21 = new WPI_TalonFX(21);
   Encoder encoder = new Encoder(0, 1, false, EncodingType.k4X);
   boolean stateARM;
+  boolean stateLVLARM;
 
   public ARMsubsystem() {
     //config motorM21
@@ -45,21 +50,25 @@ public class ARMsubsystem extends SubsystemBase {
     motorM21.config_kF(0, 0.0, 30); //0.0
 
     //PIDSpeed/POWER
-    motorM21.configMotionCruiseVelocity(5000);
-    motorM21.configMotionAcceleration(2500);
+    motorM21.configMotionCruiseVelocity(12000);
+    motorM21.configMotionAcceleration(6000);
 
     motorM21.setSensorPhase(true);
 
     //state
     stateARM = true;
+    stateLVLARM = true;
 
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("angal", motorM21.getSelectedSensorPosition());
-    SmartDashboard.putNumber("encoder", encoder.getRaw());
-    SmartDashboard.putString("control", motorM21.getControlMode().toString());
+    SmartDashboard.putNumber("angalARM", motorM21.getSelectedSensorPosition());
+    SmartDashboard.putNumber("encoderARM", encoder.getRaw());
+    SmartDashboard.putString("controlmode", motorM21.getControlMode().toString());
+    SmartDashboard.putBoolean("lvl 2/3", this.getstatelvl());
+    NetworkTableValue.makeBoolean(stateLVLARM);
+
   }
 
   //SensorPosition
@@ -93,14 +102,26 @@ public class ARMsubsystem extends SubsystemBase {
   public boolean getstate() {
     return this.stateARM;
   }
+  public boolean getstatelvl() {
+    return this.stateLVLARM;
+  }
 
   //Chang state ARM
   public void changstate() {
     this.stateARM = !stateARM;
   }
 
+  public void setstate(Boolean tuful) {
+    this.stateARM = tuful;
+  }
+
+  public void changstatelvl() {
+    this.stateLVLARM = !stateLVLARM;
+  }
+
   //test (delete bifor start the תחרות)
   public void set(double speed) {
     motorM21.set(speed);
   }
+  
 }

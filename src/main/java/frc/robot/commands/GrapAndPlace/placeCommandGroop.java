@@ -27,9 +27,9 @@ public class placeCommandGroop extends SequentialCommandGroup {
     addRequirements(m_Grapper);
 
 
-    addCommands(new SetARMpostionToPlace(ARM));
+    addCommands(new SetARMpostionToPlace(ARM, grapper));
     addCommands(new GrapOrPlace(ARM, grapper));
-    new WaitCommand(0.5);
     addCommands(Commands.run(()->m_Grapper.StopGrapper()));
+    // addCommands(new SetARMpostionToPlace(ARM));
   }
 }

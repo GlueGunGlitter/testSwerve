@@ -31,10 +31,8 @@ public class util {
     }
     
     public static double kalculatdisrtans(double targetX) {
-        
-        double x0 = -4;
-        double z = targetX - x0;
-        double disSM  = z * 1.625;
+
+        double disSM  = -targetX * 1.625;
         double disM  = disSM * 0.01;
         
       return disM;

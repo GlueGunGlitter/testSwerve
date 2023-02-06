@@ -10,31 +10,42 @@ import frc.robot.subsystems.*;
 public class SetARMpostionToPlace extends CommandBase {
   /** Creates a new SetARMpostionToPlace. */
   private ARMsubsystem m_ARM;
-  public SetARMpostionToPlace(ARMsubsystem ARM) {
+  public SetARMpostionToPlace(ARMsubsystem ARM, Grappersubsystem Grapper) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_ARM = ARM;
     addRequirements(m_ARM);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_ARM.getstate()) {
-      m_ARM.setposison(81);
-      m_ARM.changstate();
-   }
-   else {
-      m_ARM.setposison(10);
-      m_ARM.changstate();
+    if (m_ARM.getstatelvl()) {      
+     if (m_ARM.getstate()) {
+       m_ARM.setposison(69);
+       m_ARM.changstate();
+    }
+    else {
+       m_ARM.setposison(10);
+       m_ARM.changstate();
+     }
+    }
+    else {
+      if (m_ARM.getstate()) {
+        m_ARM.setposison(75);
+        m_ARM.changstate();
+     }
+     else {
+        m_ARM.setposison(10);
+        m_ARM.changstate();
+      }
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_ARM.getposison() >= 30) {
-      
-    }
+
   }
 
   // Called once the command ends or is interrupted.
@@ -44,6 +55,6 @@ public class SetARMpostionToPlace extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_ARM.getSensorPosition() > 50000;
   }
 }

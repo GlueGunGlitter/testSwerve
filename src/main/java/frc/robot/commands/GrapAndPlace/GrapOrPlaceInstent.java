@@ -4,15 +4,15 @@
 
 package frc.robot.commands.GrapAndPlace;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.*;
-
-public class GrapOrPlace extends CommandBase {
-  /** Creates a new GrapOrPlace. */
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class GrapOrPlaceInstent extends InstantCommand {
   private Grappersubsystem m_Grapper;
   private ARMsubsystem m_ARM;
-
-  public GrapOrPlace(ARMsubsystem ARM, Grappersubsystem grapper) {
+  public GrapOrPlaceInstent(ARMsubsystem ARM, Grappersubsystem grapper) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Grapper = grapper;
     addRequirements(m_Grapper);
@@ -23,19 +23,12 @@ public class GrapOrPlace extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // if(m_Grapper.getProximity() > 1 && m_Grapper.getProximity() < 2) {
-    //   m_Grapper.setstate(true);
-    // }
-    // if (m_Grapper.getProximity() > 3 && m_Grapper.getProximity() < 4) {
-    //   m_Grapper.setstate(false);
-    // }
-
     if(m_ARM.getstate()) {
       if(m_Grapper.getstate()) {
         m_Grapper.speed(-0.8);
       }
       else {
-        m_Grapper.speed(-0.8);
+        m_Grapper.speed(0.8);
       }
     }
     else {
@@ -43,22 +36,8 @@ public class GrapOrPlace extends CommandBase {
         m_Grapper.speed(0.8);
       }
       else {
-        m_Grapper.speed(0.8);
+        m_Grapper.speed(-0.8);
       }
     }
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
   }
 }
