@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.DriveCommands;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.Swervesubsystem;
@@ -18,7 +18,6 @@ public class TeleopSwerveCommand extends CommandBase {
     private DoubleSupplier rotationSup;
     private BooleanSupplier robotCentricSup;
     private BooleanSupplier speedSup;
-
     public TeleopSwerveCommand(Swervesubsystem s_Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup, BooleanSupplier speed) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
@@ -36,6 +35,7 @@ public class TeleopSwerveCommand extends CommandBase {
         double translationVal;
         double strafeVal;
         double rotationVal;
+
         if(speedSup.getAsBoolean()) {
             translationVal = MathUtil.applyDeadband(translationSup.getAsDouble() * 0.6, Constants.stickDeadband);
             strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble() * 0.6, Constants.stickDeadband);

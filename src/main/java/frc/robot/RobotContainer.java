@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.util.util;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
+import frc.robot.commands.DriveCommands.TeleopSwerveCommand;
 import frc.robot.commands.GrapAndPlace.GrapOrPlace;
 import frc.robot.commands.GrapAndPlace.GrapOrPlaceInstent;
 import frc.robot.commands.GrapAndPlace.SetARMpostionToPlace;
@@ -78,7 +79,7 @@ public class RobotContainer {
                 s_Swerve, 
                 () -> -m_driver.getRawAxis(translationAxis), 
                 () -> -m_driver.getRawAxis(strafeAxis), 
-                () -> -m_driver.getRawAxis(rotationAxis), 
+                () -> -m_driver.getRawAxis(rotationAxis) * 0.6, 
                 () -> robotCentric.getAsBoolean(),
                 () -> speedaut.getAsBoolean()
             )
@@ -100,7 +101,10 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-        
+        d_Uppov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 0));
+        d_Rahgtpov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 90));
+        d_Downpov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 180));
+                d_Leftpov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 270));
         /*helper Draiver */
 
         hkB.onTrue(Commands.runOnce(()->m_arm.setposison(75)));
