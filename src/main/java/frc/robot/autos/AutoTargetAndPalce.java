@@ -7,6 +7,8 @@ package frc.robot.autos;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
+import frc.robot.commands.DriveCommands.DriveToTargetXY;
+import frc.robot.commands.GrapAndPlace.placeCommandGroop;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
@@ -27,7 +29,7 @@ public class AutoTargetAndPalce extends SequentialCommandGroup {
     addRequirements(m_Swerve);
     m_Light = light;
     addRequirements(m_Light);
-    addCommands(new DriveToTarget(light, swerve));
-    addCommands(new placeCommand(light, ARM, grapper));
+    addCommands(new DriveToTargetXY(light, swerve));
+    addCommands(new placeCommandGroop(ARM, grapper));
   }
 }

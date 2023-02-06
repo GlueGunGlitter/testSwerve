@@ -4,37 +4,77 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
+import com.revrobotics.ColorSensorV3;
+
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
+
+
 
 public class Grappersubsystem extends SubsystemBase {
+  Color kBlankTarget = new Color(0,0,0);
+  Color kPurpleTarget = new Color(128,0,128);
+  Color kYellowTarget = new Color(255,255,0);
+  
+ 
   /** Creates a new Grapper. */
-  WPI_TalonFX motorM0 = new WPI_TalonFX(0);
+  WPI_TalonFX motorM19 = new WPI_TalonFX(19);
+  boolean stateGrapper;
+  ColorMatch m_colorMatcher = new ColorMatch();
+
+  I2C.Port i2cPort = I2C.Port.kOnboard;
+  ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+  int proximity = m_colorSensor.getProximity();
+
+
   public Grappersubsystem() {
-    //reset config motorM0
-    motorM0.configFactoryDefault();
-    motorM0.setNeutralMode(NeutralMode.Brake);
+    //reset config motorM19
+    motorM19.configFactoryDefault();
+    motorM19.setNeutralMode(NeutralMode.Brake);
+
+    stateGrapper = true;
   }
 
+  
+  /* (non-Javadoc)
+   * @see edu.wpi.first.wpilibj2.command.Subsystem#periodic()
+   */
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+      
+    SmartDashboard.putNumber("Proximity", getProximity());
+
+    SmartDashboard.putBoolean("IN KON / AUT KUB", this.getstate());
+    SmartDashboard.putBoolean("AUT KON / IN KUB", !this.getstate());
   }
 
-  //Stop motorM0
+  //Stop motorM19
   public void StopGrapper() {
-    motorM0.set(0);
-  }
-  
-  //Close Grap
-  public void CloseGrap() {
-    motorM0.set(1);
+    motorM19.set(0);
   }
 
-  //Relese Grap
-  public void ReleseGrap() {
-    motorM0.set(1);
+  public int getProximity() {
+    return m_colorSensor.getProximity();
+  }
+
+  public void speed(double speed) {
+    motorM19.set(speed);
+  }
+
+  public boolean getstate() {
+    return this.stateGrapper;
+  }
+
+
+  public void changstate() {
+    this.stateGrapper = !stateGrapper;
   }
 }
+

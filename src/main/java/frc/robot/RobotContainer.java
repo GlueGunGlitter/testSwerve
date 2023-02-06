@@ -3,15 +3,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.lib.util.util;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
+import frc.robot.commands.GrapAndPlace.SetARMpotionToPlace;
 import frc.robot.subsystems.*;
 
 /**
@@ -42,15 +43,16 @@ public class RobotContainer {
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(m_driver, XboxController.Button.kY.value);
+    private final JoystickButton zeroGyro = new JoystickButton(m_driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton robotCentric = new JoystickButton(m_driver, XboxController.Button.kLeftBumper.value);
 
     /* System Buttons */
-    private final JoystickButton grapGamePiece = new JoystickButton(m_driver, XboxController.Button.kA.value);
-    private final JoystickButton grapDropGamePiece = new JoystickButton(m_driver, XboxController.Button.kX.value);
+    private final JoystickButton kY = new JoystickButton(m_driver, XboxController.Button.kY.value);
+    private final JoystickButton ka = new JoystickButton(m_driver, XboxController.Button.kA.value);
+    private final JoystickButton kx = new JoystickButton(m_driver, XboxController.Button.kX.value);
+    private final JoystickButton kB = new JoystickButton(m_driver, XboxController.Button.kB.value);
     private final Trigger armMoveUpR = new Trigger(() -> m_driver.getRawAxis(3) > 0.1);
     private final Trigger armMoveDownL = new Trigger(() -> m_driver.getRawAxis(2) > 0.1);
-
 
     /* Subsystems */
     private final Swervesubsystem s_Swerve = new Swervesubsystem();
@@ -70,7 +72,7 @@ public class RobotContainer {
                 () -> robotCentric.getAsBoolean()
             )
         );
-
+        
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -86,20 +88,31 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
         /* System Buttons */
-        grapGamePiece.onTrue(Commands.run(() -> m_grapper.CloseGrap(), m_grapper))
-        .onFalse(Commands.runOnce(() -> m_grapper.StopGrapper(), m_grapper));
 
-        grapDropGamePiece.onTrue(Commands.run(() -> m_grapper.ReleseGrap(), m_grapper))
-        .onFalse(Commands.runOnce(() -> m_grapper.StopGrapper(), m_grapper));
+        double y = util.kalculatdisrtans(m_Limelight.targetX());
 
-        armMoveUpR.onTrue(Commands.run(() -> m_arm.setposison(0), m_arm))
+        kY.onTrue(Commands.runOnce(()-> m_grapper.changstate()));
+
+        ka.onTrue(Commands.runOnce(()->m_grapper.speed(-0.80)));
+        ka.onFalse(Commands.runOnce(()->m_grapper.StopGrapper()));
+
+        kx.onTrue(Commands.runOnce(()->m_grapper.speed(0.80)));
+        kx.onFalse(Commands.runOnce(()->m_grapper.StopGrapper()));
+
+        kB.onTrue(new SetARMpotionToPlace(m_arm));
+
+        armMoveDownL.onTrue(Commands.run(() -> m_arm.tast1up(-0.5), m_arm))
         .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
 
-        armMoveDownL.onTrue(Commands.run(() -> m_arm.setSensorPosition(1), m_arm))
-        .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
+        d_Uppov.onTrue(Commands.runOnce(()-> m_arm.setSensorPosition(0)));
 
-        new JoystickButton(m_driver, Button.kL1.value)
-        .onTrue(new INTDriveToTargetXY(s_Swerve, m_Limelight , 1, 1));
+        d_Leftpov.onTrue(Commands.runOnce(()->m_Limelight.setpipline(-1)));
+
+        d_Rahgtpov.onTrue(Commands.runOnce(()->m_Limelight.setpipline(1)));
+    }
+
+    public Swervesubsystem getSwerveSubsystem() {
+        return s_Swerve;
     }
 
     /**
@@ -109,7 +122,7 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new autoPathPlanner(s_Swerve, m_arm, m_grapper, m_Limelight);
+        return new autoPathPlanner(s_Swerve, m_arm);
     }
 
     //Led CANfier.

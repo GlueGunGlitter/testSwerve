@@ -2,35 +2,35 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
-
-import edu.wpi.first.wpilibj2.command.CommandBase;
+package frc.robot.commands.GrapAndPlace;
 import frc.robot.subsystems.Grappersubsystem;
-import frc.robot.subsystems.ARMsubsystem;
-public class ReleseCommand extends CommandBase {
-  /** Creates a new ReleseCommand. */
-  private Grappersubsystem m_Grapper;
-  private ARMsubsystem m_ARM;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-  public ReleseCommand(Grappersubsystem grapper , ARMsubsystem ARM) {
+public class GrabCommand extends CommandBase {
+  /** Creates a new GrabCommand. */
+  private Grappersubsystem m_Grapper;
+  public GrabCommand(Grappersubsystem grapper) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Grapper = grapper;
     addRequirements(m_Grapper);
-    m_ARM = ARM;
-    addRequirements(m_ARM);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    if (m_ARM.getSensorPosition() == 1) {
-      m_Grapper.ReleseGrap();
-    }
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if(true) {
+      if (m_Grapper.getstate()) {
+        m_Grapper.speed(-0.80);
+      }
+      else {
+        m_Grapper.speed(80);
+      }
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
