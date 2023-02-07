@@ -47,6 +47,12 @@ public class limelightSubSystem extends SubsystemBase {
         return tx;
     }
 
+    //get targetArea
+    public double targetArea() {
+        double area = NetworkTable.getEntry("ta").getDouble(0.0);
+        return area;
+    }
+
     //get targetY
     public double targetY(){
         return NetworkTable.getEntry("ty").getNumber(0).doubleValue();

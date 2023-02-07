@@ -4,10 +4,10 @@
 
 package frc.robot.commands.testCommands;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.setCommands.SetDriveToTargetXY;
+import frc.robot.commands.TeleopSwerveCommand;
 import frc.robot.subsystems.*;
-import frc.lib.util.*;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
@@ -24,9 +24,16 @@ public class DriveToTargettest extends SequentialCommandGroup {
     m_Swerve = swerve;
     addRequirements(m_Swerve);
 
-    double y = util.kalculatdisrtans(m_Limelight.targetX());
+    final double DESIRED_TARGET_AREA = 13.0;
 
-    addCommands(new SetDriveToTargetXY(swerve, 0,  1));
+    Pose2d pose = swerve.getPose();
+
+    double steer_value = m_Limelight.targetX() * 0.03;
+    double drive_value = (DESIRED_TARGET_AREA - m_Limelight.targetArea()) * 0.5;
+    double rotate_value = pose.getRotation().getDegrees() * 0.6 / 180;
+    
+
+    addCommands(new TeleopSwerveCommand(swerve, () -> drive_value, () -> steer_value, () -> rotate_value, () -> false));
     
   }
 }
