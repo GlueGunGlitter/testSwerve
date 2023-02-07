@@ -12,7 +12,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.util.util;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
-import frc.robot.commands.GrapAndPlace.SetARMpotionToPlace;
+import frc.robot.commands.DriveCommands.TeleopSwerveCommand;
+import frc.robot.commands.GrapAndPlace.GrapOrPlace;
+import frc.robot.commands.GrapAndPlace.GrapOrPlaceInstent;
+import frc.robot.commands.GrapAndPlace.SetARMpostionToPlace;
+import frc.robot.commands.GrapAndPlace.placeCommandGroop;
 import frc.robot.subsystems.*;
 
 /**
@@ -45,14 +49,21 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(m_driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton robotCentric = new JoystickButton(m_driver, XboxController.Button.kLeftBumper.value);
-
-    /* System Buttons */
     private final JoystickButton kY = new JoystickButton(m_driver, XboxController.Button.kY.value);
     private final JoystickButton ka = new JoystickButton(m_driver, XboxController.Button.kA.value);
     private final JoystickButton kx = new JoystickButton(m_driver, XboxController.Button.kX.value);
     private final JoystickButton kB = new JoystickButton(m_driver, XboxController.Button.kB.value);
-    private final Trigger armMoveUpR = new Trigger(() -> m_driver.getRawAxis(3) > 0.1);
-    private final Trigger armMoveDownL = new Trigger(() -> m_driver.getRawAxis(2) > 0.1);
+
+    private final Trigger speedaut = new Trigger(() -> m_driver.getRawAxis(2) > 0.1);
+
+    /* System Buttons */
+    private final JoystickButton hkY = new JoystickButton(m_driver, XboxController.Button.kY.value);
+    private final JoystickButton hka = new JoystickButton(m_driver, XboxController.Button.kA.value);
+    private final JoystickButton hkx = new JoystickButton(m_driver, XboxController.Button.kX.value);
+    private final JoystickButton hkB = new JoystickButton(m_driver, XboxController.Button.kB.value);
+
+    private final Trigger pik = new Trigger(() -> m_driver.getRawAxis(2) > 0.1);
+    private final Trigger aut = new Trigger(() -> m_driver.getRawAxis(3) > 0.1);
 
     
     /* Subsystems */
@@ -69,9 +80,11 @@ public class RobotContainer {
                 s_Swerve, 
                 () -> -m_driver.getRawAxis(translationAxis), 
                 () -> -m_driver.getRawAxis(strafeAxis), 
-                () -> -m_driver.getRawAxis(rotationAxis), 
-                () -> robotCentric.getAsBoolean()
+                () -> -m_driver.getRawAxis(rotationAxis) * 0.6, 
+                () -> robotCentric.getAsBoolean(),
+                () -> speedaut.getAsBoolean()
             )
+
         );
         
         // Configure the button bindings
@@ -85,31 +98,32 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
+        
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-        /* System Buttons */
+        d_Uppov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 0));
+        d_Rahgtpov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 90));
+        d_Downpov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 180));
+        d_Leftpov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 270));
+        /*helper Draiver */
 
-        double y = util.kalculatdisrtans(m_Limelight.targetX());
+        hkY.onTrue(Commands.runOnce(()->m_arm.setposison(75)));
 
+        hkB.onTrue(Commands.runOnce(()->m_arm.setposison(69)));
+
+        hka.onTrue(Commands.runOnce(() -> m_arm.setposison(10)));
+
+        pik.onTrue(Commands.run(()->m_grapper.speed(0.5)));
+
+        aut.onTrue(Commands.run(()->m_grapper.speed(-0.5)));
+
+
+        /*Bol Buttons */
         kY.onTrue(Commands.runOnce(()-> m_grapper.changstate()));
 
-        ka.onTrue(Commands.runOnce(()->m_grapper.speed(-0.80)));
-        ka.onFalse(Commands.runOnce(()->m_grapper.StopGrapper()));
-
-        kx.onTrue(Commands.runOnce(()->m_grapper.speed(0.80)));
-        kx.onFalse(Commands.runOnce(()->m_grapper.StopGrapper()));
-
-        kB.onTrue(new SetARMpotionToPlace(m_arm));
-
-        armMoveDownL.onTrue(Commands.run(() -> m_arm.tast1up(-0.5), m_arm))
-        .onFalse(Commands.runOnce(() -> m_arm.stopARM(), m_arm));
-
-        d_Uppov.onTrue(Commands.runOnce(()-> m_arm.setSensorPosition(0)));
-
-        d_Leftpov.onTrue(Commands.runOnce(()->m_Limelight.setpipline(-1)));
-
-        d_Rahgtpov.onTrue(Commands.runOnce(()->m_Limelight.setpipline(1)));
+        /* System Buttons */
+        double y = util.kalculatdisrtans(m_Limelight.targetX());
     }
 
     public Swervesubsystem getSwerveSubsystem() {

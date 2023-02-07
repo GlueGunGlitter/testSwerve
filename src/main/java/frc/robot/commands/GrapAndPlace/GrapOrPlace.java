@@ -5,14 +5,14 @@
 package frc.robot.commands.GrapAndPlace;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Grappersubsystem;
-import frc.robot.subsystems.ARMsubsystem;
-public class ReleseCommand extends CommandBase {
-  /** Creates a new ReleseCommand. */
+import frc.robot.subsystems.*;
+
+public class GrapOrPlace extends CommandBase {
+  /** Creates a new GrapOrPlace. */
   private Grappersubsystem m_Grapper;
   private ARMsubsystem m_ARM;
 
-  public ReleseCommand(Grappersubsystem grapper , ARMsubsystem ARM) {
+  public GrapOrPlace(ARMsubsystem ARM, Grappersubsystem grapper) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Grapper = grapper;
     addRequirements(m_Grapper);
@@ -23,12 +23,27 @@ public class ReleseCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_ARM.getSensorPosition() > 80000) {
-      if (m_Grapper.getstate()) {
-        m_Grapper.speed(-0.80);
+    // if(m_Grapper.getProximity() > 1 && m_Grapper.getProximity() < 2) {
+    //   m_Grapper.setstate(true);
+    // }
+    // if (m_Grapper.getProximity() > 3 && m_Grapper.getProximity() < 4) {
+    //   m_Grapper.setstate(false);
+    // }
+
+    if(m_ARM.getstate()) {
+      if(m_Grapper.getstate()) {
+        m_Grapper.speed(-0.8);
       }
       else {
-        m_Grapper.speed(80);
+        m_Grapper.speed(-0.8);
+      }
+    }
+    else {
+      if(m_Grapper.getstate()) {
+        m_Grapper.speed(0.8);
+      }
+      else {
+        m_Grapper.speed(0.8);
       }
     }
   }

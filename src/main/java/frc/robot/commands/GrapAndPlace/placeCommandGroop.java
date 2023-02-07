@@ -27,9 +27,9 @@ public class placeCommandGroop extends SequentialCommandGroup {
     addRequirements(m_Grapper);
 
 
-    addCommands(new SetARMpotionToPlace(ARM));
-    addCommands(new ReleseCommand(grapper, ARM).unless(()->m_ARM.getSensorPosition() > 80000));
-    new WaitCommand(0.5);
+    addCommands(new SetARMpostionToPlace(ARM, grapper));
+    addCommands(new GrapOrPlace(ARM, grapper));
     addCommands(Commands.run(()->m_Grapper.StopGrapper()));
+    // addCommands(new SetARMpostionToPlace(ARM));
   }
 }
