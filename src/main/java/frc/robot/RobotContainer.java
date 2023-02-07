@@ -104,12 +104,14 @@ public class RobotContainer {
         d_Uppov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 0));
         d_Rahgtpov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 90));
         d_Downpov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 180));
-                d_Leftpov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 270));
+        d_Leftpov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 270));
         /*helper Draiver */
 
-        hkB.onTrue(Commands.runOnce(()->m_arm.setposison(75)));
+        hkY.onTrue(Commands.runOnce(()->m_arm.setposison(75)));
 
-        hkY.onTrue(Commands.runOnce(()->m_arm.setposison(69)));
+        hkB.onTrue(Commands.runOnce(()->m_arm.setposison(69)));
+
+        hka.onTrue(Commands.runOnce(() -> m_arm.setposison(10)));
 
         pik.onTrue(Commands.run(()->m_grapper.speed(0.5)));
 
