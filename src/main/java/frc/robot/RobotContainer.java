@@ -13,6 +13,7 @@ import frc.lib.util.util;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.commands.DriveCommands.TeleopSwerveCommand;
+import frc.robot.commands.DriveCommands.TrunToAngle;
 import frc.robot.commands.GrapAndPlace.GrapOrPlace;
 import frc.robot.commands.GrapAndPlace.GrapOrPlaceInstent;
 import frc.robot.commands.GrapAndPlace.SetARMpostionToPlace;
@@ -102,7 +103,7 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-        d_Uppov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 0));
+        d_Uppov.onTrue(new TrunToAngle(s_Swerve, 0));
         d_Rahgtpov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 90));
         d_Downpov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 180));
         d_Leftpov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 270));

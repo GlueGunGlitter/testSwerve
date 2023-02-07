@@ -6,7 +6,7 @@ package frc.robot.commands.testCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.TeleopSwerveCommand;
+import frc.robot.commands.DriveCommands.TeleopSwerveCommand;
 import frc.robot.subsystems.*;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -33,7 +33,7 @@ public class DriveToTargettest extends SequentialCommandGroup {
     double rotate_value = pose.getRotation().getDegrees() * 0.6 / 180;
     
 
-    addCommands(new TeleopSwerveCommand(swerve, () -> drive_value, () -> steer_value, () -> rotate_value, () -> false));
+    addCommands(new TeleopSwerveCommand(swerve, () -> drive_value, () -> steer_value, () -> rotate_value, () -> false, () -> false));
     
   }
 }
