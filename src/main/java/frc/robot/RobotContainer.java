@@ -18,6 +18,8 @@ import frc.robot.commands.GrapAndPlace.GrapOrPlace;
 import frc.robot.commands.GrapAndPlace.GrapOrPlaceInstent;
 import frc.robot.commands.GrapAndPlace.SetARMpostionToPlace;
 import frc.robot.commands.GrapAndPlace.placeCommandGroop;
+import frc.robot.commands.testCommands.DriveToTargettest;
+import frc.robot.commands.testCommands.DriveToTragetArea;
 import frc.robot.subsystems.*;
 
 /**
@@ -56,15 +58,14 @@ public class RobotContainer {
     private final JoystickButton kB = new JoystickButton(m_driver, XboxController.Button.kB.value);
 
     private final Trigger speedaut = new Trigger(() -> m_driver.getRawAxis(2) > 0.1);
-
     /* System Buttons */
-    private final JoystickButton hkY = new JoystickButton(m_driver, XboxController.Button.kY.value);
-    private final JoystickButton hka = new JoystickButton(m_driver, XboxController.Button.kA.value);
-    private final JoystickButton hkx = new JoystickButton(m_driver, XboxController.Button.kX.value);
-    private final JoystickButton hkB = new JoystickButton(m_driver, XboxController.Button.kB.value);
+    private final JoystickButton hkY = new JoystickButton(m_HelperDriverController, XboxController.Button.kY.value);
+    private final JoystickButton hka = new JoystickButton(m_HelperDriverController, XboxController.Button.kA.value);
+    private final JoystickButton hkx = new JoystickButton(m_HelperDriverController, XboxController.Button.kX.value);
+    private final JoystickButton hkB = new JoystickButton(m_HelperDriverController, XboxController.Button.kB.value);
 
-    private final Trigger pik = new Trigger(() -> m_driver.getRawAxis(2) > 0.1);
-    private final Trigger aut = new Trigger(() -> m_driver.getRawAxis(3) > 0.1);
+    private final Trigger pik = new Trigger(() -> m_HelperDriverController.getRawAxis(2) > 0.1);
+    private final Trigger aut = new Trigger(() -> m_HelperDriverController.getRawAxis(3) > 0.1);
 
     
     /* Subsystems */
@@ -87,7 +88,6 @@ public class RobotContainer {
             )
 
         );
-        
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -104,20 +104,23 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
         d_Uppov.onTrue(new TrunToAngle(s_Swerve, 0));
-        d_Rahgtpov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 90));
-        d_Downpov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 180));
-        d_Leftpov.onTrue(new TeleopSwerveCommand(s_Swerve, () -> 0.0, () -> 0.0,() -> 0.5, () -> false, () -> false).until(() -> s_Swerve.getYaw().getDegrees()<= 270));
-        /*helper Draiver */
+        d_Rahgtpov.onTrue(new TrunToAngle(s_Swerve, 90));
+        d_Downpov.onTrue(new TrunToAngle(s_Swerve, 180));
+        d_Leftpov.onTrue(new TrunToAngle(s_Swerve, 270));
 
+
+        /*helper Draiver */
         hkY.onTrue(Commands.runOnce(()->m_arm.setposison(75)));
 
         hkB.onTrue(Commands.runOnce(()->m_arm.setposison(69)));
 
         hka.onTrue(Commands.runOnce(() -> m_arm.setposison(10)));
 
-        pik.onTrue(Commands.run(()->m_grapper.speed(0.5)));
+        hkx.whileTrue(new DriveToTragetArea(s_Swerve, m_Limelight).repeatedly());
 
-        aut.onTrue(Commands.run(()->m_grapper.speed(-0.5)));
+        pik.onTrue(Commands.runOnce(()->m_grapper.speed(0.5))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
+
+        aut.onTrue(Commands.runOnce(()->m_grapper.speed(-0.5))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
 
 
         /*Bol Buttons */

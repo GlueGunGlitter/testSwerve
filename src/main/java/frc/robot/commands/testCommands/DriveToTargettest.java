@@ -24,16 +24,16 @@ public class DriveToTargettest extends SequentialCommandGroup {
     m_Swerve = swerve;
     addRequirements(m_Swerve);
 
-    final double DESIRED_TARGET_AREA = 13.0;
+    final double DESIRED_TARGET_AREA = 0.95;
 
     Pose2d pose = swerve.getPose();
 
     double steer_value = m_Limelight.targetX() * 0.03;
-    double drive_value = (DESIRED_TARGET_AREA - m_Limelight.targetArea()) * 0.5;
+    double drive_value =  0.6 + (m_Limelight.targetArea() - 0.006) * (0.2 - 0.6) / (0.95 - 0.006);
     double rotate_value = pose.getRotation().getDegrees() * 0.6 / 180;
     
 
-    addCommands(new TeleopSwerveCommand(swerve, () -> drive_value, () -> steer_value, () -> rotate_value, () -> false, () -> false));
+    addCommands(new TeleopSwerveCommand(swerve, () -> drive_value, () -> 0, () -> 0, () -> false, () -> false).until(() -> m_Limelight.targetArea() > DESIRED_TARGET_AREA));
     
   }
 }

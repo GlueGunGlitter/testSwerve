@@ -41,7 +41,7 @@ public class Swervesubsystem extends SubsystemBase {
         Timer.delay(1.0);
         resetModulesToAbsolute();
 
-        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions());
+        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, new Rotation2d(0), getModulePositions());
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -107,7 +107,7 @@ public class Swervesubsystem extends SubsystemBase {
     }
 
     public double getYawDouble() {
-        return (Constants.Swerve.invertGyro) ? (360 - gyro.getYaw()) : gyro.getYaw();
+        return gyro.getYaw();
     }
 
 
@@ -120,6 +120,10 @@ public class Swervesubsystem extends SubsystemBase {
     @Override
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions());  
+
+        SmartDashboard.putNumber("yaw", getYawDouble());
+        SmartDashboard.putNumber("yaw deg", getYaw().getDegrees());
+        SmartDashboard.putData(gyro);
 
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());

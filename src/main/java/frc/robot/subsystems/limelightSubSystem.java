@@ -14,7 +14,7 @@ public class limelightSubSystem extends SubsystemBase {
 
     public limelightSubSystem() {
       NetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
-      NetworkTable.getEntry("ledMode").setNumber(0);
+      NetworkTable.getEntry("ledMode").setNumber(3);
       statepip = 0;
     }
 

@@ -34,7 +34,7 @@ public class SetDriveToTargetXY extends SequentialCommandGroup {
 
         var thetaController =
         new ProfiledPIDController(
-            Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
+            Constants.AutoConstants.aPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
     SwerveControllerCommand swerveControllerCommand =
@@ -42,8 +42,8 @@ public class SetDriveToTargetXY extends SequentialCommandGroup {
             exampleTrajectory,
             m_Swerve::getPose,
             Constants.Swerve.swerveKinematics,
-            new PIDController(Constants.AutoConstants.kPXController, 0, 0),
-            new PIDController(Constants.AutoConstants.kPYController, 0, 0),
+            new PIDController(Constants.AutoConstants.aPXController, 0, 0),
+            new PIDController(Constants.AutoConstants.aPYController, 0, 0),
             thetaController,
             m_Swerve::setModuleStates,
             m_Swerve);

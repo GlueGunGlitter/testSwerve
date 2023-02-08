@@ -19,16 +19,17 @@ public class TrunToAngle extends PIDCommand {
   public TrunToAngle(Swervesubsystem m_swerve, double angleTurn) {
     super(
         // The controller that the command will use
-        new PIDController(Constants.Swerve.angleKP, Constants.Swerve.angleKI, Constants.Swerve.angleKD),
+        new PIDController(Constants.AutoConstants.aPZController, 0.0, 0.0),
         // This should return the measurement
         m_swerve::getYawDouble,
         // This should return the setpoint (can also be a constant)
         angleTurn,
         // This uses the output
-        output -> m_swerve.drive(new Translation2d(0, 0), output, false, true),
+        output -> m_swerve.drive(new Translation2d(0, 0), -output, true, true),
         m_swerve);
         
         getController().enableContinuousInput(-180, 180);
+        getController().setTolerance(5);
   }
 
   // Returns true when the command should end.
