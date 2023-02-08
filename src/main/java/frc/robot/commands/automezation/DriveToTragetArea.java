@@ -37,15 +37,20 @@ public class DriveToTragetArea extends CommandBase {
   @Override
   public void execute() {
     Pose2d pose = swerve.getPose();
-    
-    double steer_value = -light.targetX() * 0.022;
-    double drive_value =  0.4 + (light.targetArea() - 0.006) * (0.1 - 0.4) / (0.95 - 0.006);
-
-
     double rotate_value = -modAngle(pose.getRotation().getDegrees()) * 0.017;
+    double steer_value;
+    double drive_value;
 
     rotate_value = MathUtil.clamp(rotate_value, -0.3, 0.3);
 
+    if (rotate_value < 1 || rotate_value > -1) {
+     steer_value = -light.targetX() * 0.022;
+     drive_value =  0.4 + (light.targetArea() - 0.006) * (0.1 - 0.4) / (0.95 - 0.006);
+    }
+    else {
+     steer_value = -light.targetX() * 0.025;
+     drive_value =  0.1;
+    }
 
     swerve.drive(
             new Translation2d(drive_value, steer_value).times(Constants.Swerve.maxSpeed), 
@@ -55,7 +60,7 @@ public class DriveToTragetArea extends CommandBase {
         );
   }
 
-  // Called once the command ends or is interrupted.
+  // Called once the command ends or i0.4 + (light.targetArea() - 0.006) s interrupted.
   @Override
   public void end(boolean interrupted) {
     swerve.drive(
