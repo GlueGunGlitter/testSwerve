@@ -8,6 +8,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
+import java.io.File;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -16,15 +18,18 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Swervesubsystem extends SubsystemBase {
+    public Field2d field;
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public AHRS gyro;
 
     public Swervesubsystem() {
+        field = new Field2d();
         gyro = new AHRS(SPI.Port.kMXP, (byte) 200); 
         zeroGyro();
 
@@ -119,7 +124,10 @@ public class Swervesubsystem extends SubsystemBase {
 
     @Override
     public void periodic(){
-        swerveOdometry.update(getYaw(), getModulePositions());  
+        swerveOdometry.update(getYaw(), getModulePositions()); 
+        field.setRobotPose(getPose()); 
+        SmartDashboard.putData(field);
+
 
         SmartDashboard.putNumber("yaw", getYawDouble());
         SmartDashboard.putNumber("yaw deg", getYaw().getDegrees());
