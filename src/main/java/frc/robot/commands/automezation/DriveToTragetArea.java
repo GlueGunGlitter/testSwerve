@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.testCommands;
+package frc.robot.commands.automezation;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -37,12 +37,15 @@ public class DriveToTragetArea extends CommandBase {
   @Override
   public void execute() {
     Pose2d pose = swerve.getPose();
+    
+    double steer_value = -light.targetX() * 0.022;
+    double drive_value =  0.4 + (light.targetArea() - 0.006) * (0.1 - 0.4) / (0.95 - 0.006);
 
-    double steer_value = -light.targetX() * 0.025;
-    double drive_value =  0.4 + (light.targetArea() - 0.006) * (0.2 - 0.4) / (0.95 - 0.006);
+
     double rotate_value = -modAngle(pose.getRotation().getDegrees()) * 0.017;
 
     rotate_value = MathUtil.clamp(rotate_value, -0.3, 0.3);
+
 
     swerve.drive(
             new Translation2d(drive_value, steer_value).times(Constants.Swerve.maxSpeed), 

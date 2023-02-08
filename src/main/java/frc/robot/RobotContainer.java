@@ -18,8 +18,9 @@ import frc.robot.commands.GrapAndPlace.GrapOrPlace;
 import frc.robot.commands.GrapAndPlace.GrapOrPlaceInstent;
 import frc.robot.commands.GrapAndPlace.SetARMpostionToPlace;
 import frc.robot.commands.GrapAndPlace.placeCommandGroop;
+import frc.robot.commands.automezation.DriveToTragetArea;
+import frc.robot.commands.automezation.autoplace;
 import frc.robot.commands.testCommands.DriveToTargettest;
-import frc.robot.commands.testCommands.DriveToTragetArea;
 import frc.robot.subsystems.*;
 
 /**
@@ -110,13 +111,13 @@ public class RobotContainer {
 
 
         /*helper Draiver */
-        hkY.onTrue(Commands.runOnce(()->m_arm.setposison(75)));
+        hkY.onTrue(Commands.runOnce(()->m_arm.setposison(69)));
 
-        hkB.onTrue(Commands.runOnce(()->m_arm.setposison(69)));
+        hkB.onTrue(Commands.runOnce(()->m_arm.setposison(80)));
 
         hka.onTrue(Commands.runOnce(() -> m_arm.setposison(10)));
 
-        hkx.whileTrue(new DriveToTragetArea(s_Swerve, m_Limelight).repeatedly());
+        hkx.onTrue(new autoplace(s_Swerve, m_Limelight, m_arm, m_grapper));
 
         pik.onTrue(Commands.runOnce(()->m_grapper.speed(0.5))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
 
