@@ -37,20 +37,27 @@ public class DriveToTragetArea extends CommandBase {
   @Override
   public void execute() {
     Pose2d pose = swerve.getPose();
-    double rotate_value = -modAngle(pose.getRotation().getDegrees()) * 0.017;
-    double steer_value;
-    double drive_value;
 
-    rotate_value = MathUtil.clamp(rotate_value, -0.3, 0.3);
+    PIDController steerController = new PIDController(0.012, 0, 0.0);
+    steerController.enableContinuousInput(-27, 27);
+    double steer_value = MathUtil.clamp(steerController.calculate(light.targetX(), 0), -0.4, 0.4);
 
-    if (rotate_value < 1 || rotate_value > -1) {
-     steer_value = -light.targetX() * 0.022;
-     drive_value =  0.4 + (light.targetArea() - 0.006) * (0.1 - 0.4) / (0.95 - 0.006);
-    }
-    else {
-     steer_value = -light.targetX() * 0.025;
-     drive_value =  0.1;
-    }
+    PIDController driveController = new PIDController(0.0, 0, 0);
+    double drive_value = MathUtil.clamp(driveController.calculate(light.targetArea(), DESIRED_TARGET_AREA), 0.4, 0.03);
+
+    PIDController rotateController = new PIDController(0.01, 0, 0);
+    rotateController.enableContinuousInput(-180, 180);
+    double rotate_value = MathUtil.clamp(rotateController.calculate(pose.getRotation().getDegrees(), 0), -0.1, 0.1);
+  
+
+    // if (rotate_value < 1 || rotate_value > -1) {
+    //  steer_value = -light.targetX() * 0.022;
+    //  drive_value =  0.4 + (light.targetArea() - 0.006) * (0.1 - 0.4) / (0.95 - 0.006);
+    // }
+    // else {
+    //  steer_value = -light.targetX() * 0.025;
+    //  drive_value =  0.1;
+    // }
 
     swerve.drive(
             new Translation2d(drive_value, steer_value).times(Constants.Swerve.maxSpeed), 
