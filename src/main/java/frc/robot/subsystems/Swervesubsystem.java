@@ -45,7 +45,6 @@ public class Swervesubsystem extends SubsystemBase {
          */
         Timer.delay(1.0);
         resetModulesToAbsolute();
-
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, new Rotation2d(0), getModulePositions());
     }
 
@@ -125,8 +124,11 @@ public class Swervesubsystem extends SubsystemBase {
     @Override
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions()); 
+        SmartDashboard.putNumber("pose", swerveOdometry.getPoseMeters().getRotation().getDegrees());
+
+
         field.setRobotPose(getPose()); 
-        SmartDashboard.putData(field);
+        SmartDashboard.putData("Field",field);
 
 
         SmartDashboard.putNumber("yaw", getYawDouble());

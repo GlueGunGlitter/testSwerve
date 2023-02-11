@@ -8,6 +8,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
@@ -19,7 +20,7 @@ public class DriveToTragetArea extends CommandBase {
 
   Swervesubsystem swerve;
   limelightSubSystem light;
-  final double DESIRED_TARGET_AREA = 0.95;
+  final double DESIRED_TARGET_AREA = 0.275;
 
   public DriveToTragetArea(Swervesubsystem m_swerve, limelightSubSystem m_limelight) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -38,17 +39,24 @@ public class DriveToTragetArea extends CommandBase {
   public void execute() {
     Pose2d pose = swerve.getPose();
 
-    PIDController steerController = new PIDController(0.012, 0, 0.0);
+    PIDController steerController = new PIDController(0.02, 0, 0.0);
     steerController.enableContinuousInput(-27, 27);
-    double steer_value = MathUtil.clamp(steerController.calculate(light.targetX(), 0), -0.4, 0.4);
+    double steer_value = MathUtil.clamp(steerController.calculate(light.targetX(), 0), -0.35, 0.35);
 
-    PIDController driveController = new PIDController(0.0, 0, 0);
-    double drive_value = MathUtil.clamp(driveController.calculate(light.targetArea(), DESIRED_TARGET_AREA), 0.4, 0.03);
+    PIDController driveController = new PIDController(0.0, 0, 0.5);
+    double drive_value = MathUtil.clamp(driveController.calculate(light.targetArea(), DESIRED_TARGET_AREA), 0.4, 0.0);
 
     PIDController rotateController = new PIDController(0.01, 0, 0);
     rotateController.enableContinuousInput(-180, 180);
     double rotate_value = MathUtil.clamp(rotateController.calculate(pose.getRotation().getDegrees(), 0), -0.1, 0.1);
-  
+
+    if((pose.getRotation().getDegrees() < -10 || pose.getRotation().getDegrees() > 10))
+    {
+      if(rotate_value < 0)
+      { Math.abs(steer_value); } 
+      else
+      { steer_value = -steer_value; }
+    }
 
     swerve.drive(
             new Translation2d(drive_value, steer_value).times(Constants.Swerve.maxSpeed), 

@@ -29,14 +29,6 @@ public class util {
         return traj;
 
     }
-    
-    public static double kalculatdisrtans(double targetX) {
-
-        double disSM  = -targetX * 1.625;
-        double disM  = disSM * 0.01;
-        
-      return disM;
-    }
 
     public static double distanceFromTarget(double targetOffsetAngle_Vertical) {
         double limelightMountAngleDegrees = 10.0;

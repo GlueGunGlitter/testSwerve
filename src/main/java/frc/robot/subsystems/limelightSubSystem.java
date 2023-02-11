@@ -14,7 +14,7 @@ public class limelightSubSystem extends SubsystemBase {
 
     public limelightSubSystem() {
       NetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
-      NetworkTable.getEntry("ledMode").setNumber(3);
+      NetworkTable.getEntry("pipeline").setNumber(3);
       statepip = 0;
     }
 
@@ -37,7 +37,6 @@ public class limelightSubSystem extends SubsystemBase {
         SmartDashboard.putNumber("LimelightArea", area);
         SmartDashboard.putNumber("Limelighttv", tv);
 
-        SmartDashboard.putNumber("distans", util.kalculatdisrtans(x));
         SmartDashboard.putNumber("dis", util.distanceFromTarget(y));
         
     }
