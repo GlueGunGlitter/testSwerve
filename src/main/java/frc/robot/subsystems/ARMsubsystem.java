@@ -10,6 +10,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -63,6 +65,7 @@ public class ARMsubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    ShuffleboardTab tab = Shuffleboard.getTab("Shuffleboard");
     SmartDashboard.putNumber("angalARM", motorM21.getSelectedSensorPosition());
     SmartDashboard.putNumber("encoderARM", encoder.getRaw());
     SmartDashboard.putString("controlmode", motorM21.getControlMode().toString());
@@ -117,6 +120,10 @@ public class ARMsubsystem extends SubsystemBase {
 
   public void changstatelvl() {
     this.stateLVLARM = !stateLVLARM;
+  }
+
+  public void setstatelvl(Boolean tuful) {
+    this.stateLVLARM = tuful;
   }
 
   //test (delete bifor start the תחרות)

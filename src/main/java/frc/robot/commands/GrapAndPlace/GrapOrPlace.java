@@ -35,15 +35,15 @@ public class GrapOrPlace extends CommandBase {
         m_Grapper.speed(-0.8);
       }
       else {
-        m_Grapper.speed(-0.8);
+        m_Grapper.speed(0.8);
       }
     }
     else {
       if(m_Grapper.getstate()) {
-        m_Grapper.speed(0.8);
+        m_Grapper.speed(0.9);
       }
       else {
-        m_Grapper.speed(0.8);
+        m_Grapper.speed(-0.9);
       }
     }
   }
@@ -54,11 +54,19 @@ public class GrapOrPlace extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_Grapper.StopGrapper();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (m_ARM.getstate()) {
+      return m_Grapper.getint() == 2 || m_Grapper.getProximity() > 140;
+    }
+    else {
+      return m_Grapper.getint() == 0 || m_Grapper.getProximity() < 140;
+    } 
   }
 }
+    

@@ -18,12 +18,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.subsystems.ARMsubsystem;
-import frc.robot.subsystems.Swervesubsystem;
+import frc.robot.commands.automezation.autoplace;
+import frc.robot.subsystems.*;
+
 
 /** Add your docs here. */
 public class autoPathPlanner extends SequentialCommandGroup {
-    public autoPathPlanner(Swervesubsystem s_Swerve, ARMsubsystem m_arm) {
+    public autoPathPlanner(Swervesubsystem s_Swerve, ARMsubsystem m_arm ,limelightSubSystem light, Grappersubsystem grapper) {
         PathPlannerTrajectory examplePath = PathPlanner.loadPath("BetterWork", new PathConstraints(Constants.AutoConstants.kMaxSpeedMetersPerSecond,
         Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
@@ -32,16 +33,8 @@ public class autoPathPlanner extends SequentialCommandGroup {
         PIDController yController = new PIDController(Constants.AutoConstants.aPYController, 0.0, 0);
         PIDController zController = new PIDController(0, 0.0, 0);
 
-        SequentialCommandGroup arm = new SequentialCommandGroup(
-            new InstantCommand(() -> m_arm.setposison(1)),
-            new WaitCommand(1.5),
-            new InstantCommand(() -> m_arm.setposison(0)),
-            new WaitCommand(1),
-            new InstantCommand(() -> m_arm.stopARM())
-        );
-
         HashMap<String, Command> eventMap = new HashMap<>();
-        eventMap.put("upArm", arm);
+        // eventMap.put("upArm", arm);
 
 
         PPSwerveControllerCommand ppPath = new PPSwerveControllerCommand(
@@ -57,9 +50,8 @@ public class autoPathPlanner extends SequentialCommandGroup {
         FollowPathWithEvents follow = new FollowPathWithEvents(ppPath, examplePath.getMarkers(), eventMap);
 
         addCommands(
-            new InstantCommand(() -> s_Swerve.zeroGyro()),
-            new InstantCommand(() -> s_Swerve.resetOdometry(examplePath.getInitialHolonomicPose())),
-            ppPath,
-            new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()));
+            new autoplace(s_Swerve, light, m_arm, grapper)
+        );
+        addCommands(ppPath);
     }
 }

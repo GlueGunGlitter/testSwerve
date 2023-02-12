@@ -12,38 +12,55 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
-import frc.robot.subsystems.Swervesubsystem;
-import frc.robot.subsystems.limelightSubSystem;
+import frc.robot.subsystems.*;
+
 
 public class DriveToTragetArea extends CommandBase {
 
   Swervesubsystem swerve;
   limelightSubSystem light;
-  final double DESIRED_TARGET_AREA = 0.95;
+  Grappersubsystem m_grapper;
+  double DESIRED_TARGET_AREA;
 
-  public DriveToTragetArea(Swervesubsystem m_swerve, limelightSubSystem m_limelight) {
+  public DriveToTragetArea(Swervesubsystem m_swerve, limelightSubSystem m_limelight, Grappersubsystem grapper) {
     // Use addRequirements() here to declare subsystem dependencies.
     swerve = m_swerve;
     addRequirements(swerve);
     light = m_limelight;
     addRequirements(light);
+    m_grapper = grapper;
+    addRequirements(m_grapper);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() { }
+  public void initialize() { 
+    if (m_grapper.getstate()) {
+    light.setpipline(2);
+    }
+    else if (!m_grapper.getstate()) {
+    light.setpipline(3);
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     Pose2d pose = swerve.getPose();
 
+    if (m_grapper.getstate()) {
+      DESIRED_TARGET_AREA = 0.45;
+    }    
+    else {
+      DESIRED_TARGET_AREA = 8;
+    }
+
     PIDController steerController = new PIDController(0.012, 0, 0.0);
     steerController.enableContinuousInput(-27, 27);
     double steer_value = MathUtil.clamp(steerController.calculate(light.targetX(), 0), -0.4, 0.4);
 
     PIDController driveController = new PIDController(0.0, 0, 0);
-    double drive_value = MathUtil.clamp(driveController.calculate(light.targetArea(), DESIRED_TARGET_AREA), 0.4, 0.03);
+    double drive_value = MathUtil.clamp(driveController.calculate(light.targetArea(), DESIRED_TARGET_AREA), 0.4, 0);
 
     PIDController rotateController = new PIDController(0.01, 0, 0);
     rotateController.enableContinuousInput(-180, 180);

@@ -25,7 +25,9 @@ public class Grappersubsystem extends SubsystemBase {
   WPI_TalonFX motorM19 = new WPI_TalonFX(19);
   boolean stateGrapper;
   ColorMatch m_colorMatcher = new ColorMatch();
+  int color;
 
+  
   // color sensor
   Color kBlankTarget = new Color(0,0,0);
   Color kPurpleTarget = new Color(128,0,128);
@@ -40,12 +42,13 @@ public class Grappersubsystem extends SubsystemBase {
   int getRed = m_colorSensor.getRed() -200;
   double getIR = m_colorSensor.getIR();
 
+  
   public Grappersubsystem() {
     //reset config motorM19
     motorM19.configFactoryDefault();
     motorM19.setNeutralMode(NeutralMode.Brake);
 
-    stateGrapper = true;
+    stateGrapper = true; //kon
   }
 
   
@@ -61,6 +64,15 @@ public class Grappersubsystem extends SubsystemBase {
     SmartDashboard.putNumber("getIR", m_colorSensor.getIR());
     SmartDashboard.putBoolean("KON", this.getstate());
     SmartDashboard.putBoolean("KUB", !this.getstate());
+    SmartDashboard.putNumber("color", this.getint());
+
+    if (m_colorSensor.getBlue() > 180) { //kub
+      setstate(false);
+    }
+    else if (m_colorSensor.getGreen() > 310 && m_colorSensor.getRed() > 170) {
+      setstate(true); 
+    }
+
   }
 
   //Stop motorM19
@@ -81,12 +93,25 @@ public class Grappersubsystem extends SubsystemBase {
   }
 
 
+  public int getint() {
+    return color;
+  }
+
+
   public void changstate() {
     this.stateGrapper = !stateGrapper;
   }
 
   public void setstate(Boolean tuful) {
     this.stateGrapper = tuful;
+  }
+
+  public void getGreen() {
+    m_colorSensor.getGreen();
+  }
+
+  public void getRed() {
+    m_colorSensor.getRed();
   }
 }
 

@@ -67,9 +67,9 @@ public class limelightSubSystem extends SubsystemBase {
     
     //setpipline
     public void setpipline(int pipeline){
-        pipeline = pipeline + statepip;
+        // pipeline = pipeline + statepip;
         NetworkTable.getEntry("pipeline").setNumber(pipeline);
-        statepip = pipeline + statepip;
+        // statepip = pipeline + statepip;
     }
 
     //LEDmode

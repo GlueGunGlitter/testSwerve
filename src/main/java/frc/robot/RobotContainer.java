@@ -111,9 +111,9 @@ public class RobotContainer {
 
 
         /*helper Draiver */
-        hkY.onTrue(Commands.runOnce(()->m_arm.setposison(69)));
+        hkY.onTrue(Commands.runOnce(()->m_grapper.changstate()));
 
-        hkB.onTrue(Commands.runOnce(()->m_arm.setposison(80)));
+        hkB.onTrue(new GrapOrPlace(m_arm, m_grapper));
 
         hka.onTrue(Commands.runOnce(() -> m_arm.setposison(10)));
 
@@ -123,6 +123,9 @@ public class RobotContainer {
 
         aut.onTrue(Commands.runOnce(()->m_grapper.speed(-0.5))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
 
+        h_Uppov.onTrue(Commands.runOnce(()->m_arm.setstatelvl(true)));
+
+        h_Downpov.onTrue(Commands.runOnce(()->m_arm.setstatelvl(false)));
 
         /*Bol Buttons */
         kY.onTrue(Commands.runOnce(()-> m_grapper.changstate()));
@@ -142,6 +145,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new autoPathPlanner(s_Swerve, m_arm);
+        return new autoPathPlanner(s_Swerve, m_arm, m_Limelight, m_grapper);
     }
 }

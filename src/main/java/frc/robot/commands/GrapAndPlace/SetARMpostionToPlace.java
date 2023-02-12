@@ -20,17 +20,17 @@ public class SetARMpostionToPlace extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // if (m_ARM.getstatelvl()) {      
-    //  if (m_ARM.getstate()) {
-    //    m_ARM.setposison(69);
-    //    m_ARM.changstate();
-    // }
-    // else {
-    //    m_ARM.setposison(10);
-    //    m_ARM.changstate();
-    //  }
-    // }
-    // else {
+    if (m_ARM.getstatelvl()) {      
+     if (m_ARM.getstate()) {
+       m_ARM.setposison(69);
+       m_ARM.changstate();
+    }
+    else {
+       m_ARM.setposison(10);
+       m_ARM.changstate();
+     }
+    }
+    else {
       if (m_ARM.getstate()) {
         m_ARM.setposison(80);
         m_ARM.changstate();
@@ -39,7 +39,7 @@ public class SetARMpostionToPlace extends CommandBase {
         m_ARM.setposison(10);
         m_ARM.changstate();
       }
-    // }
+     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -55,7 +55,7 @@ public class SetARMpostionToPlace extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_ARM.getSensorPosition() > 77000;
+    return m_ARM.getSensorPosition() > 69000;
     
   }
 }
