@@ -62,6 +62,7 @@ public class ARMsubsystem extends SubsystemBase {
     motorM21.config_kD(0, 0.0, 30); //0.001
     motorM21.config_kF(0, 0.0, 30); //0.0
 
+
     //PIDSpeed/POWER
     motorM21.configMotionCruiseVelocity(12000);
     motorM21.configMotionAcceleration(6000);

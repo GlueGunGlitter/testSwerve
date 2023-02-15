@@ -89,9 +89,10 @@ public class RobotContainer {
             )
 
         );
+        m_ARM.setDefaultCommand(new SetToPickDfoldCommand(m_ARM));
         // Configure the button bindings
         configureButtonBindings();
-        m_ARM.setDefaultCommand(new SetToPickDfoldCommand(m_ARM));
+        
     }
 
     /**
