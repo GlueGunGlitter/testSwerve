@@ -32,10 +32,10 @@ public class limelightSubSystem extends SubsystemBase {
         double tv = NetworkTable.getEntry("tv").getDouble(0.0);
 
         //post to shaffelbord
-        SmartDashboard.putNumber("LimelightX", x);
-        SmartDashboard.putNumber("LimelightY", y);
-        SmartDashboard.putNumber("LimelightArea", area);
-        SmartDashboard.putNumber("Limelighttv", tv);
+        // SmartDashboard.putNumber("LimelightX", x);
+        // SmartDashboard.putNumber("LimelightY", y);
+        // SmartDashboard.putNumber("LimelightArea", area);
+        // SmartDashboard.putNumber("Limelighttv", tv);
 
         SmartDashboard.putNumber("dis", util.distanceFromTarget(y));
         

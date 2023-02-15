@@ -35,7 +35,7 @@ public class ARMsubsystem extends SubsystemBase {
     motorM21.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor ,0 ,0);
 
     //limit motorM21
-    motorM21.configForwardSoftLimitThreshold(85000, 30);
+    motorM21.configForwardSoftLimitThreshold(89000, 30);
     motorM21.configForwardSoftLimitEnable(true, 6000);
 
     //Deadband
@@ -50,8 +50,8 @@ public class ARMsubsystem extends SubsystemBase {
     motorM21.config_kF(0, 0.0, 30); //0.0
 
     //PIDSpeed/POWER
-    motorM21.configMotionCruiseVelocity(40000);
-    motorM21.configMotionAcceleration(30000);
+    motorM21.configMotionCruiseVelocity(20000);
+    motorM21.configMotionAcceleration(10000);
 
     motorM21.setSensorPhase(true);
 
@@ -64,8 +64,6 @@ public class ARMsubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("angalARM", motorM21.getSelectedSensorPosition());
-    SmartDashboard.putNumber("encoderARM", encoder.getRaw());
-    SmartDashboard.putString("controlmode", motorM21.getControlMode().toString());
     SmartDashboard.putBoolean("lvl 2/3", this.getstatelvl());
     NetworkTableValue.makeBoolean(stateLVLARM);
 

@@ -102,7 +102,7 @@ public class RobotContainer {
 
 
         /*helper Draiver */
-        hkY.onTrue(Commands.runOnce(()->m_arm.setposison(75)));
+        hkY.onTrue(Commands.runOnce(()->m_arm.setposison(84)));
 
         hkB.onTrue(Commands.runOnce(()->m_arm.setposison(69)));
 
@@ -110,9 +110,9 @@ public class RobotContainer {
 
         hkx.whileTrue(new DriveToTragetArea(s_Swerve, m_Limelight).repeatedly());
 
-        pik.onTrue(Commands.runOnce(()->m_grapper.speed(0.5))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
+        pik.onTrue(Commands.runOnce(()->m_grapper.speed(0.75))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
 
-        aut.onTrue(Commands.runOnce(()->m_grapper.speed(-0.5))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
+        aut.onTrue(Commands.runOnce(()->m_grapper.speed(-0.75))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
 
 
         /*Bol Buttons */

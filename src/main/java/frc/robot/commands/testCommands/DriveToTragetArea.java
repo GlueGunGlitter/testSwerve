@@ -20,7 +20,7 @@ public class DriveToTragetArea extends CommandBase {
 
   Swervesubsystem swerve;
   limelightSubSystem light;
-  final double DESIRED_TARGET_AREA = 0.275;
+  final double DESIRED_TARGET_AREA = 1; // .275   max - 1.7
 
   public DriveToTragetArea(Swervesubsystem m_swerve, limelightSubSystem m_limelight) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -44,7 +44,7 @@ public class DriveToTragetArea extends CommandBase {
     double steer_value = MathUtil.clamp(steerController.calculate(light.targetX(), 0), -0.35, 0.35);
 
     PIDController driveController = new PIDController(0.0, 0, 0.5);
-    double drive_value = MathUtil.clamp(driveController.calculate(light.targetArea(), DESIRED_TARGET_AREA), 0.4, 0.0);
+    double drive_value = MathUtil.clamp(driveController.calculate(light.targetArea(), DESIRED_TARGET_AREA), 0.3, 0.0);
 
     PIDController rotateController = new PIDController(0.01, 0, 0);
     rotateController.enableContinuousInput(-180, 180);
@@ -52,10 +52,10 @@ public class DriveToTragetArea extends CommandBase {
 
     if((pose.getRotation().getDegrees() < -10 || pose.getRotation().getDegrees() > 10))
     {
-      if(rotate_value < 0)
-      { Math.abs(steer_value); } 
+      if(rotate_value > 0)
+      { Math.abs(steer_value); }
       else
-      { steer_value = -steer_value; }
+      { steer_value =  steer_value > 0 ? -steer_value : steer_value; }
     }
 
     swerve.drive(

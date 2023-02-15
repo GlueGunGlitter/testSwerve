@@ -54,11 +54,6 @@ public class Grappersubsystem extends SubsystemBase {
    */
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Proximity", m_colorSensor.getProximity());
-    SmartDashboard.putNumber("getBlue", m_colorSensor.getBlue());
-    SmartDashboard.putNumber("getGreen", m_colorSensor.getGreen());
-    SmartDashboard.putNumber("getRed", m_colorSensor.getRed());
-    SmartDashboard.putNumber("getIR", m_colorSensor.getIR());
     SmartDashboard.putBoolean("KON", this.getstate());
     SmartDashboard.putBoolean("KUB", !this.getstate());
   }

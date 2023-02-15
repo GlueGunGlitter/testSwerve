@@ -126,19 +126,13 @@ public class Swervesubsystem extends SubsystemBase {
         swerveOdometry.update(getYaw(), getModulePositions()); 
         SmartDashboard.putNumber("pose", swerveOdometry.getPoseMeters().getRotation().getDegrees());
 
+        // field.setRobotPose(getPose()); 
+        // SmartDashboard.putData("Field", field);
 
-        field.setRobotPose(getPose()); 
-        SmartDashboard.putData("Field",field);
-
-
-        SmartDashboard.putNumber("yaw", getYawDouble());
-        SmartDashboard.putNumber("yaw deg", getYaw().getDegrees());
-        SmartDashboard.putData(gyro);
-
-        for(SwerveModule mod : mSwerveMods){
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
-        }
+        // for(SwerveModule mod : mSwerveMods){
+        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
+        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
+        //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
+        // }
     }
 }
