@@ -126,9 +126,9 @@ public class RobotContainer {
 
         hka.onTrue(Commands.runOnce(() -> m_ARM.setposison(0)));
 
-        pik.onTrue(Commands.runOnce(()->m_grapper.speed(0.5))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
+        pik.onTrue(Commands.runOnce(()->m_grapper.speed(0.8))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
 
-        aut.onTrue(Commands.runOnce(()->m_grapper.speed(-0.5))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
+        aut.onTrue(Commands.runOnce(()->m_grapper.speed(-0.8))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
 
         h_Uppov.onTrue(Commands.runOnce(()->m_ARM.setstatelvl(true)));
 
@@ -145,6 +145,10 @@ public class RobotContainer {
 
     public Swervesubsystem getSwerveSubsystem() {
         return s_Swerve;
+    }
+
+    public ARMsubsystem getARMsubsystem() {
+        return m_ARM;
     }
 
     /**

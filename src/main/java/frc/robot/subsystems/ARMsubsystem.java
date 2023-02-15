@@ -64,8 +64,8 @@ public class ARMsubsystem extends SubsystemBase {
     
 
     //PIDSpeed/POWER
-    motorM21.configMotionCruiseVelocity(12000);
-    motorM21.configMotionAcceleration(6000);
+    motorM21.configMotionCruiseVelocity(20000);
+    motorM21.configMotionAcceleration(10000);
 
     motorM21.setSensorPhase(true);
 

@@ -86,6 +86,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     m_robotContainer.getSwerveSubsystem().zeroGyro();
+    m_robotContainer.getARMsubsystem().set(0);
   }
 
   /** This function is called periodically during operator control. */
