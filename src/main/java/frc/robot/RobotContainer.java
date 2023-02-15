@@ -72,7 +72,7 @@ public class RobotContainer {
     /* Subsystems */
     private final Swervesubsystem s_Swerve = new Swervesubsystem();
     private final Grappersubsystem m_grapper = new Grappersubsystem();
-    private final ARMsubsystem m_arm = new ARMsubsystem();
+    private final ARMsubsystem m_ARM = new ARMsubsystem();
     private final limelightSubSystem m_Limelight = new limelightSubSystem();
 
 
@@ -91,6 +91,7 @@ public class RobotContainer {
         );
         // Configure the button bindings
         configureButtonBindings();
+        m_ARM.setDefaultCommand(new SetToPickDfoldCommand(m_ARM));
     }
 
     /**
@@ -113,19 +114,21 @@ public class RobotContainer {
         /*helper Draiver */
         hkY.onTrue(Commands.runOnce(()->m_grapper.changstate()));
 
-        hkB.onTrue(new GrapOrPlace(m_arm, m_grapper));
+        hkB.onTrue(new GrapOrPlace(m_ARM, m_grapper));
 
-        hka.onTrue(Commands.runOnce(() -> m_arm.setposison(10)));
+        hka.onTrue(Commands.runOnce(() -> m_ARM.setposison(10)));
 
-        hkx.onTrue(new autoplace(s_Swerve, m_Limelight, m_arm, m_grapper));
+        hkx.onTrue(new autoplace(s_Swerve, m_Limelight, m_ARM, m_grapper));
 
         pik.onTrue(Commands.runOnce(()->m_grapper.speed(0.5))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
 
         aut.onTrue(Commands.runOnce(()->m_grapper.speed(-0.5))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
 
-        h_Uppov.onTrue(Commands.runOnce(()->m_arm.setstatelvl(true)));
+        h_Uppov.onTrue(Commands.runOnce(()->m_ARM.setstatelvl(true)));
 
-        h_Downpov.onTrue(Commands.runOnce(()->m_arm.setstatelvl(false)));
+        h_Downpov.onTrue(Commands.runOnce(()->m_ARM.setstatelvl(false)));
+
+        ka.onTrue(Commands.run(()-> m_ARM.startmusic()));
 
         /*Bol Buttons */
         kY.onTrue(Commands.runOnce(()-> m_grapper.changstate()));
@@ -145,6 +148,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new autoPathPlanner(s_Swerve, m_arm, m_Limelight, m_grapper);
+        return new autoPathPlanner(s_Swerve, m_ARM, m_Limelight, m_grapper);
     }
 }

@@ -8,29 +8,40 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.music.Orchestra;
 
 public class ARMsubsystem extends SubsystemBase {
   /** Creates a new ARMsubsystem. */
   WPI_TalonFX motorM21 = new WPI_TalonFX(21);
-  Encoder encoder = new Encoder(0, 1, false, EncodingType.k4X);
+  DigitalInput limitswhic = new DigitalInput(7);
   boolean stateARM;
   boolean stateLVLARM;
+  Orchestra music;
 
   public ARMsubsystem() {
     //config motorM21
     motorM21.configFactoryDefault();
     motorM21.setNeutralMode(NeutralMode.Brake);
+
+    
 
     //SensorPosition get
     motorM21.setSelectedSensorPosition(0);
@@ -57,6 +68,11 @@ public class ARMsubsystem extends SubsystemBase {
 
     motorM21.setSensorPhase(true);
 
+    List<TalonFX> or = new ArrayList<TalonFX>();
+    or.add(motorM21);
+
+    music = new Orchestra(or, "src\\main\\deploy\\gg.chrp");
+    music.play();
     //state
     stateARM = true;
     stateLVLARM = true;
@@ -67,11 +83,8 @@ public class ARMsubsystem extends SubsystemBase {
   public void periodic() {
     ShuffleboardTab tab = Shuffleboard.getTab("Shuffleboard");
     SmartDashboard.putNumber("angalARM", motorM21.getSelectedSensorPosition());
-    SmartDashboard.putNumber("encoderARM", encoder.getRaw());
-    SmartDashboard.putString("controlmode", motorM21.getControlMode().toString());
     SmartDashboard.putBoolean("lvl 2/3", this.getstatelvl());
     NetworkTableValue.makeBoolean(stateLVLARM);
-
   }
 
   //SensorPosition
@@ -131,4 +144,12 @@ public class ARMsubsystem extends SubsystemBase {
     motorM21.set(speed);
   }
   
+  public void startmusic() {
+    music.play();
+  }
+
+  //limitswhic
+  public boolean limitswhic() {
+    return limitswhic.get();
+  }
 }

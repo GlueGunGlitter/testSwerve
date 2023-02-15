@@ -49,10 +49,10 @@ public class DriveToTragetArea extends CommandBase {
     Pose2d pose = swerve.getPose();
 
     if (m_grapper.getstate()) {
-      DESIRED_TARGET_AREA = 0.45;
+      DESIRED_TARGET_AREA = 0.45; //kon
     }    
     else {
-      DESIRED_TARGET_AREA = 8;
+      DESIRED_TARGET_AREA = 8; //kub
     }
 
     PIDController steerController = new PIDController(0.012, 0, 0.0);
