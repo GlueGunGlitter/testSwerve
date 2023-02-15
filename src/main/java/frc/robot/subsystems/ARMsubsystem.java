@@ -31,7 +31,7 @@ import com.ctre.phoenix.music.Orchestra;
 public class ARMsubsystem extends SubsystemBase {
   /** Creates a new ARMsubsystem. */
   WPI_TalonFX motorM21 = new WPI_TalonFX(21);
-  DigitalInput limitswhic = new DigitalInput(7);
+  DigitalInput limitswhic = new DigitalInput(1);
   boolean stateARM;
   boolean stateLVLARM;
   Orchestra music;
@@ -61,7 +61,7 @@ public class ARMsubsystem extends SubsystemBase {
     motorM21.config_kI(0, 0.00005, 30); //0.000018
     motorM21.config_kD(0, 0.0, 30); //0.001
     motorM21.config_kF(0, 0.0, 30); //0.0
-
+    
 
     //PIDSpeed/POWER
     motorM21.configMotionCruiseVelocity(12000);
@@ -86,6 +86,7 @@ public class ARMsubsystem extends SubsystemBase {
     SmartDashboard.putNumber("angalARM", motorM21.getSelectedSensorPosition());
     SmartDashboard.putBoolean("lvl 2/3", this.getstatelvl());
     NetworkTableValue.makeBoolean(stateLVLARM);
+    motorM21.getActiveTrajectoryPosition();
   }
 
   //SensorPosition

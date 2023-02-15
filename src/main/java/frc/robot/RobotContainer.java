@@ -18,6 +18,10 @@ import frc.robot.commands.GrapAndPlace.GrapOrPlace;
 import frc.robot.commands.GrapAndPlace.GrapOrPlaceInstent;
 import frc.robot.commands.GrapAndPlace.SetARMpostionToPlace;
 import frc.robot.commands.GrapAndPlace.placeCommandGroop;
+import frc.robot.commands.GrapAndPlace.placeHigtCommand;
+import frc.robot.commands.GrapAndPlace.placeMidCommand;
+import frc.robot.commands.GrapAndPlace.placehigh;
+import frc.robot.commands.GrapAndPlace.placemid;
 import frc.robot.commands.automezation.DriveToTragetArea;
 import frc.robot.commands.automezation.autoplace;
 import frc.robot.commands.testCommands.DriveToTargettest;
@@ -89,7 +93,7 @@ public class RobotContainer {
             )
 
         );
-        m_ARM.setDefaultCommand(new SetToPickDfoldCommand(m_ARM));
+        // m_ARM.setDefaultCommand(new SetToPickDfoldCommand(m_ARM));
         // Configure the button bindings
         configureButtonBindings();
         
@@ -113,13 +117,13 @@ public class RobotContainer {
 
 
         /*helper Draiver */
-        hkY.onTrue(Commands.runOnce(()->m_grapper.changstate()));
+        hkY.onTrue(new placehigh(m_ARM, s_Swerve, m_grapper));
 
-        hkB.onTrue(new GrapOrPlace(m_ARM, m_grapper));
+        hkx.onTrue(new GrapOrPlace(m_ARM, m_grapper));
 
-        hka.onTrue(Commands.runOnce(() -> m_ARM.setposison(10)));
+        hkB.onTrue(new placemid(m_ARM, s_Swerve, m_grapper));
 
-        hkx.onTrue(new autoplace(s_Swerve, m_Limelight, m_ARM, m_grapper));
+        hka.onTrue(Commands.runOnce(() -> m_ARM.setposison(0)));
 
         pik.onTrue(Commands.runOnce(()->m_grapper.speed(0.5))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
 

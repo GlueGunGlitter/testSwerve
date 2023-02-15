@@ -6,7 +6,9 @@ package frc.robot;
 
 import com.pathplanner.lib.server.PathPlannerServer;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -22,6 +24,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  DigitalInput limitswhics;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -93,8 +96,9 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
-    CommandScheduler.getInstance().cancelAll();
-    m_robotContainer.getSwerveSubsystem().resetModulesToAbsolute();
+    // CommandScheduler.getInstance().cancelAll();
+    // m_robotContainer.getSwerveSubsystem().resetModulesToAbsolute();
+    
   }
 
   /** This function is called periodically during test mode. */
