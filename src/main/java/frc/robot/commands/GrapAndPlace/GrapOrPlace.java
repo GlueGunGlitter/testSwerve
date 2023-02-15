@@ -62,10 +62,10 @@ public class GrapOrPlace extends CommandBase {
   @Override
   public boolean isFinished() {
     if (m_ARM.getstate()) {
-      return m_Grapper.getdistans() > 1;
+      return m_Grapper.getdistans() > -1;
     }
     else {
-      return m_Grapper.getdistans() > 1;
+      return m_Grapper.getdistans() > -1;
     } 
   }
 }

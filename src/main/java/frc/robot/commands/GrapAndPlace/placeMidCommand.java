@@ -22,7 +22,7 @@ public class placeMidCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      m_ARM.setposison(89);
+      m_ARM.setposison(79);
       m_ARM.setstate(false);
       m_swerve.zeroGyro();
 
@@ -39,6 +39,6 @@ public class placeMidCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_ARM.getSensorPosition() < 79;
   }
 }

@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
@@ -20,8 +21,7 @@ public class Grappersubsystem extends SubsystemBase {
   WPI_TalonFX motorM19 = new WPI_TalonFX(19);
   boolean stateGrapper;
   
-
-  Ultrasonic m_Ultrasonic = new Ultrasonic(3, 4);
+  AnalogInput m_Ultrasonic = new AnalogInput(3);
 
   
   public Grappersubsystem() {
@@ -37,14 +37,14 @@ public class Grappersubsystem extends SubsystemBase {
    */
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Proximity", m_Ultrasonic.getRangeMM());
+    SmartDashboard.putNumber("distansultra", m_Ultrasonic.getAverageValue());
     SmartDashboard.putBoolean("KON", this.getstate());
     SmartDashboard.putBoolean("KUB", !this.getstate());
 
-    if (m_Ultrasonic.getRangeMM() > 180) { //kub
+    if (m_Ultrasonic.getAverageValue() > 180) { //kub
       setstate(false);
     }
-    else if (m_Ultrasonic.getRangeMM() > 310) {
+    else if (m_Ultrasonic.getAverageValue() > 310) {
       setstate(true); 
     }
 
@@ -56,7 +56,7 @@ public class Grappersubsystem extends SubsystemBase {
   }
 
   public double getdistans() {
-    return m_Ultrasonic.getRangeMM();
+    return m_Ultrasonic.getAverageValue();
   }
 
   public void speed(double speed) {

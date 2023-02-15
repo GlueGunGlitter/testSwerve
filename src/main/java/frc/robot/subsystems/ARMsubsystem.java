@@ -85,6 +85,7 @@ public class ARMsubsystem extends SubsystemBase {
     ShuffleboardTab tab = Shuffleboard.getTab("Shuffleboard");
     SmartDashboard.putNumber("angalARM", motorM21.getSelectedSensorPosition());
     SmartDashboard.putBoolean("lvl 2/3", this.getstatelvl());
+    SmartDashboard.putBoolean("limitsvhic", limitswhic());
     NetworkTableValue.makeBoolean(stateLVLARM);
     motorM21.getActiveTrajectoryPosition();
   }

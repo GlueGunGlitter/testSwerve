@@ -39,6 +39,6 @@ public class placeHigtCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_ARM.getSensorPosition() < 65;
   }
 }

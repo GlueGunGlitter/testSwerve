@@ -26,7 +26,7 @@ public class SetToPickDfoldCommand extends CommandBase {
   public void execute() {
     if (m_ARM.limitswhic()) {
       m_ARM.setSensorPosition(0);
-      m_ARM.setposison(30);
+      m_ARM.setposison(10);
     }
   }
 
