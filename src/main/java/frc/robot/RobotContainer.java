@@ -12,7 +12,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.*;
 import frc.robot.commands.DriveCommands.TeleopSwerveCommand;
 import frc.robot.commands.DriveCommands.TrunToAngle;
-import frc.robot.commands.testCommands.DriveToTragetArea;
+import frc.robot.commands.GrapAndPlace.GrapOrPlace;
+import frc.robot.commands.GrapAndPlace.GrapOrPlaceInstent;
+import frc.robot.commands.GrapAndPlace.SetARMpostionToPlace;
+import frc.robot.commands.GrapAndPlace.placeCommandGroop;
+import frc.robot.commands.GrapAndPlace.placeHigtCommand;
+import frc.robot.commands.GrapAndPlace.placeMidCommand;
+import frc.robot.commands.GrapAndPlace.placehigh;
+import frc.robot.commands.GrapAndPlace.placemid;
+import frc.robot.commands.automezation.DriveToTragetArea;
+import frc.robot.commands.automezation.autoplace;
+import frc.robot.commands.testCommands.DriveToTargettest;
 import frc.robot.subsystems.*;
 
 /**
@@ -63,12 +73,13 @@ public class RobotContainer {
     /* Subsystems */
     private final Swervesubsystem s_Swerve = new Swervesubsystem();
     private final Grappersubsystem m_grapper = new Grappersubsystem();
-    private final ARMsubsystem m_arm = new ARMsubsystem();
+    private final ARMsubsystem m_ARM = new ARMsubsystem();
     private final limelightSubSystem m_Limelight = new limelightSubSystem();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        
         s_Swerve.setDefaultCommand(
             new TeleopSwerveCommand(
                 s_Swerve, 
@@ -80,8 +91,11 @@ public class RobotContainer {
             )
 
         );
+        
+        // m_ARM.setDefaultCommand(new SetToPickDfoldCommand(m_ARM));
         // Configure the button bindings
         configureButtonBindings();
+        
     }
 
     /**
@@ -102,18 +116,21 @@ public class RobotContainer {
 
 
         /*helper Draiver */
-        hkY.onTrue(Commands.runOnce(()->m_arm.setposison(84)));
+        hkx.onTrue(new placehigh(m_ARM, m_grapper));
 
-        hkB.onTrue(Commands.runOnce(()->m_arm.setposison(69)));
+        // hkx.onTrue(new GrapOrPlace(m_ARM, m_grapper));
 
-        hka.onTrue(Commands.runOnce(() -> m_arm.setposison(10)));
+        hkB.onTrue(new placemid(m_ARM, m_grapper));
 
-        hkx.whileTrue(new DriveToTragetArea(s_Swerve, m_Limelight).repeatedly());
+        hka.onTrue(new SetToPickDfoldCommand(m_ARM));
 
-        pik.onTrue(Commands.runOnce(()->m_grapper.speed(0.75))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
+        pik.onTrue(Commands.runOnce(()->m_grapper.speed(0.8))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
 
-        aut.onTrue(Commands.runOnce(()->m_grapper.speed(-0.75))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
+        aut.onTrue(Commands.runOnce(()->m_grapper.speed(-0.8))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
 
+        h_Uppov.onTrue(Commands.runOnce(()->m_ARM.setstatelvl(true)));
+
+        h_Downpov.onTrue(Commands.runOnce(()->m_ARM.setstatelvl(false)));
 
         /*Bol Buttons */
         kY.onTrue(Commands.runOnce(()-> m_grapper.changstate()));
@@ -124,6 +141,10 @@ public class RobotContainer {
         return s_Swerve;
     }
 
+    public ARMsubsystem getARMsubsystem() {
+        return m_ARM;
+    }
+
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
@@ -131,6 +152,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new autoPathPlanner(s_Swerve, m_arm);
+        return new autoPathPlanner(s_Swerve, m_ARM, m_Limelight, m_grapper);
     }
 }

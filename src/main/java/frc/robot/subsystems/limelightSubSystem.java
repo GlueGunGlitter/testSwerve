@@ -32,11 +32,8 @@ public class limelightSubSystem extends SubsystemBase {
         double tv = NetworkTable.getEntry("tv").getDouble(0.0);
 
         //post to shaffelbord
-        // SmartDashboard.putNumber("LimelightX", x);
-        // SmartDashboard.putNumber("LimelightY", y);
-        // SmartDashboard.putNumber("LimelightArea", area);
-        // SmartDashboard.putNumber("Limelighttv", tv);
-
+        SmartDashboard.putNumber("Limelighttv", tv);
+        SmartDashboard.putNumber("distans", util.kalculatdisrtans(x));
         SmartDashboard.putNumber("dis", util.distanceFromTarget(y));
         
     }
@@ -66,9 +63,9 @@ public class limelightSubSystem extends SubsystemBase {
     
     //setpipline
     public void setpipline(int pipeline){
-        pipeline = pipeline + statepip;
+        // pipeline = pipeline + statepip;
         NetworkTable.getEntry("pipeline").setNumber(pipeline);
-        statepip = pipeline + statepip;
+        // statepip = pipeline + statepip;
     }
 
     //LEDmode

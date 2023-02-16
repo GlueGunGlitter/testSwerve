@@ -4,32 +4,24 @@
 
 package frc.robot.commands.GrapAndPlace;
 
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.*;
-
-
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class placeCommandGroop extends SequentialCommandGroup {
-  /** Creates a new place. */
+public class placemid extends SequentialCommandGroup {
+  /** Creates a new placemid. */
   private ARMsubsystem m_ARM;
   private Grappersubsystem m_Grapper;
-
-  public placeCommandGroop(ARMsubsystem ARM , Grappersubsystem grapper ) {
+  public placemid(ARMsubsystem ARM, Grappersubsystem Grapper) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_ARM = ARM;
     addRequirements(m_ARM);
-    m_Grapper = grapper;
+    m_Grapper = Grapper;
     addRequirements(m_Grapper);
 
-
-    addCommands(new SetARMpostionToPlace(ARM));
-    addCommands(new GrapOrPlace(ARM, grapper));
-    addCommands(Commands.run(()->m_Grapper.StopGrapper()));
-    addCommands(new SetARMpostionToPlace(ARM));
+    addCommands(new placeMidCommand(ARM));
+    //addCommands(new GrapOrPlace(ARM, Grapper));
   }
 }

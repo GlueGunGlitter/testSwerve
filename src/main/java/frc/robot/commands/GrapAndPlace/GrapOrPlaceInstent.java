@@ -28,7 +28,7 @@ public class GrapOrPlaceInstent extends InstantCommand {
         m_Grapper.speed(-0.8);
       }
       else {
-        m_Grapper.speed(0.8);
+        m_Grapper.speed(-0.8);
       }
     }
     else {
@@ -36,7 +36,7 @@ public class GrapOrPlaceInstent extends InstantCommand {
         m_Grapper.speed(0.8);
       }
       else {
-        m_Grapper.speed(-0.8);
+        m_Grapper.speed(0.8);
       }
     }
   }
