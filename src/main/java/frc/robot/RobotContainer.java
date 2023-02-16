@@ -82,6 +82,7 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        
         s_Swerve.setDefaultCommand(
             new TeleopSwerveCommand(
                 s_Swerve, 
@@ -93,8 +94,8 @@ public class RobotContainer {
             )
 
         );
-        m_ARM.setDefaultCommand(new SetToPickDfoldCommand(m_ARM));
         
+        // m_ARM.setDefaultCommand(new SetToPickDfoldCommand(m_ARM));
         // Configure the button bindings
         configureButtonBindings();
         
@@ -118,13 +119,13 @@ public class RobotContainer {
 
 
         /*helper Draiver */
-        hkY.onTrue(new placehigh(m_ARM, s_Swerve, m_grapper));
+        hkx.onTrue(new placehigh(m_ARM, m_grapper));
 
-        hkx.onTrue(new GrapOrPlace(m_ARM, m_grapper));
+        // hkx.onTrue(new GrapOrPlace(m_ARM, m_grapper));
 
-        hkB.onTrue(new placemid(m_ARM, s_Swerve, m_grapper));
+        hkB.onTrue(new placemid(m_ARM, m_grapper));
 
-        hka.onTrue(Commands.runOnce(() -> m_ARM.setposison(0)));
+        hka.onTrue(new SetToPickDfoldCommand(m_ARM));
 
         pik.onTrue(Commands.runOnce(()->m_grapper.speed(0.8))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
 
@@ -133,8 +134,6 @@ public class RobotContainer {
         h_Uppov.onTrue(Commands.runOnce(()->m_ARM.setstatelvl(true)));
 
         h_Downpov.onTrue(Commands.runOnce(()->m_ARM.setstatelvl(false)));
-
-        ka.onTrue(Commands.run(()-> m_ARM.startmusic()));
 
         /*Bol Buttons */
         kY.onTrue(Commands.runOnce(()-> m_grapper.changstate()));

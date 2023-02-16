@@ -10,13 +10,10 @@ import frc.robot.subsystems.*;
 public class placeMidCommand extends CommandBase {
   /** Creates a new placeMidCommand. */
   private ARMsubsystem m_ARM;
-  private Swervesubsystem m_swerve;
-  public placeMidCommand(ARMsubsystem ARM, Swervesubsystem swerve) {
+  public placeMidCommand(ARMsubsystem ARM) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_ARM = ARM;
     addRequirements(m_ARM);
-    m_swerve = swerve;
-    addRequirements(m_swerve);
   }
 
   // Called when the command is initially scheduled.
@@ -24,7 +21,6 @@ public class placeMidCommand extends CommandBase {
   public void initialize() {
       m_ARM.setposison(79);
       m_ARM.setstate(false);
-      m_swerve.zeroGyro();
 
   }
 

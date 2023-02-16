@@ -69,11 +69,11 @@ public class ARMsubsystem extends SubsystemBase {
 
     motorM21.setSensorPhase(true);
 
-    List<TalonFX> or = new ArrayList<TalonFX>();
-    or.add(motorM21);
+    // List<TalonFX> or = new ArrayList<TalonFX>();
+    // or.add(motorM21);
 
-    music = new Orchestra(or, "src\\main\\deploy\\gg.chrp");
-    music.play();
+    // music = new Orchestra(or, "src\\main\\deploy\\gg.chrp");
+    // music.play();
     //state
     stateARM = true;
     stateLVLARM = true;
@@ -87,7 +87,8 @@ public class ARMsubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("lvl 2/3", this.getstatelvl());
     SmartDashboard.putBoolean("limitsvhic", limitswhic());
     NetworkTableValue.makeBoolean(stateLVLARM);
-    motorM21.getActiveTrajectoryPosition();
+    
+    // motorM21.getActiveTrajectoryPosition();
   }
 
   //SensorPosition

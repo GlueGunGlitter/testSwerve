@@ -12,19 +12,16 @@ import frc.robot.subsystems.*;
 public class placemid extends SequentialCommandGroup {
   /** Creates a new placemid. */
   private ARMsubsystem m_ARM;
-  private Swervesubsystem m_swerve;
   private Grappersubsystem m_Grapper;
-  public placemid(ARMsubsystem ARM, Swervesubsystem swerve, Grappersubsystem Grapper) {
+  public placemid(ARMsubsystem ARM, Grappersubsystem Grapper) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_ARM = ARM;
     addRequirements(m_ARM);
-    m_swerve = swerve;
-    addRequirements(m_swerve);
     m_Grapper = Grapper;
     addRequirements(m_Grapper);
 
-    addCommands(new placeMidCommand(ARM, swerve));
-    addCommands(new GrapOrPlace(ARM, Grapper));
+    addCommands(new placeMidCommand(ARM));
+    //addCommands(new GrapOrPlace(ARM, Grapper));
   }
 }

@@ -10,13 +10,11 @@ import frc.robot.subsystems.*;
 public class placeHigtCommand extends CommandBase {
   /** Creates a new placeHigtCommand. */
   private ARMsubsystem m_ARM;
-  private Swervesubsystem m_swerve;
-  public placeHigtCommand(ARMsubsystem ARM, Swervesubsystem swerve) {
+
+  public placeHigtCommand(ARMsubsystem ARM) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_ARM = ARM;
     addRequirements(m_ARM);
-    m_swerve = swerve;
-    addRequirements(m_swerve);
   }
 
   // Called when the command is initially scheduled.
@@ -24,7 +22,6 @@ public class placeHigtCommand extends CommandBase {
   public void initialize() {
       m_ARM.setposison(65);
       m_ARM.setstate(false);
-      m_swerve.zeroGyro();
       
   }
 
