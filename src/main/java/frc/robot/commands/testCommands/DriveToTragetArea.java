@@ -50,6 +50,13 @@ public class DriveToTragetArea extends CommandBase {
     rotateController.enableContinuousInput(-180, 180);
     double rotate_value = MathUtil.clamp(rotateController.calculate(pose.getRotation().getDegrees(), 0), -0.1, 0.1);
 
+    steerController.setTolerance(0.2);
+
+    if(!steerController.atSetpoint())
+    {
+      drive_value = 0;
+    }
+
     if((pose.getRotation().getDegrees() < -10 || pose.getRotation().getDegrees() > 10))
     {
       if(rotate_value > 0)
