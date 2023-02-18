@@ -122,7 +122,7 @@ public class RobotContainer {
 
         hkB.onTrue(new placemid(m_ARM, m_grapper));
 
-        hka.onTrue(new SetToPickDfoldCommand(m_ARM));
+        hka.onTrue(Commands.runOnce(() -> m_ARM.setposison(10)));
 
         hkRB.onTrue(new ResetArm(m_ARM));
 
