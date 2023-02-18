@@ -33,7 +33,6 @@ public class limelightSubSystem extends SubsystemBase {
 
         //post to shaffelbord
         SmartDashboard.putNumber("Limelighttv", tv);
-        SmartDashboard.putNumber("distans", util.kalculatdisrtans(x));
         SmartDashboard.putNumber("dis", util.distanceFromTarget(y));
         
     }

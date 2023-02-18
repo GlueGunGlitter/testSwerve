@@ -89,6 +89,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     m_robotContainer.getSwerveSubsystem().zeroGyro();
+    m_robotContainer.getSwerveSubsystem().resetOdometry();
     
   }
 

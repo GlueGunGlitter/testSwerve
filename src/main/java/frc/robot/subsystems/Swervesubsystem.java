@@ -83,6 +83,10 @@ public class Swervesubsystem extends SubsystemBase {
         return swerveOdometry.getPoseMeters();
     }
 
+    public void resetOdometry() {
+        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, new Rotation2d(0), getModulePositions());
+    }
+
     public void resetOdometry(Pose2d pose) {
         swerveOdometry.resetPosition(getYaw(), getModulePositions(), pose);
     }
@@ -108,7 +112,7 @@ public class Swervesubsystem extends SubsystemBase {
     }
 
     public Rotation2d getYaw() {
-        return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw() + 180) : Rotation2d.fromDegrees(gyro.getYaw() + 180);
+        return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
     }
 
     public double getYawDouble() {

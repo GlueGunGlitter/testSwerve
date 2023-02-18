@@ -33,7 +33,7 @@ public class autoplace extends SequentialCommandGroup {
     m_Grapper = Grapper;
     addRequirements(m_Grapper);
 
-    addCommands(new DriveToTragetArea(swerve, limelight, Grapper));
+    addCommands(new DriveToTragetArea(swerve, limelight));
     addCommands(new SetARMpostionToPlace(ARM));
     addCommands(new GrapOrPlace(ARM, Grapper));
     addCommands(new WaitCommand(1.5));
