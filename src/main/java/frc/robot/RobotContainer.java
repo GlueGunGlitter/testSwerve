@@ -122,7 +122,7 @@ public class RobotContainer {
 
         hkB.onTrue(new placemid(m_ARM, m_grapper));
 
-        hka.onTrue(Commands.runOnce(m_ARM.setposison(5)));
+        hka.onTrue(Commands.runOnce(() -> m_ARM.setposison(5)));
 
         hkRB.onTrue(new ResetArm(m_ARM));
 
