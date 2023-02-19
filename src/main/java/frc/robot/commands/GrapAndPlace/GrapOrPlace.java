@@ -32,18 +32,18 @@ public class GrapOrPlace extends CommandBase {
 
     if(m_ARM.getstate()) {
       if(m_Grapper.getstate()) {
-        m_Grapper.speed(-0.8);
+        m_Grapper.set(-0.8);
       }
       else {
-        m_Grapper.speed(0.8);
+        m_Grapper.set(0.8);
       }
     }
     else {
       if(m_Grapper.getstate()) {
-        m_Grapper.speed(0.9);
+        m_Grapper.set(0.9);
       }
       else {
-        m_Grapper.speed(-0.9);
+        m_Grapper.set(-0.9);
       }
     }
   }

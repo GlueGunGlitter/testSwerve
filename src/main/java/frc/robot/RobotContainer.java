@@ -9,9 +9,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.lib.util.util;
 import frc.robot.autos.*;
-import frc.robot.commands.*;
+import frc.robot.commands.SetToPickDfoldCommand;
 import frc.robot.commands.DriveCommands.TeleopSwerveCommand;
 import frc.robot.commands.DriveCommands.TrunToAngle;
 import frc.robot.commands.GrapAndPlace.GrapOrPlace;
@@ -24,7 +23,7 @@ import frc.robot.commands.GrapAndPlace.placehigh;
 import frc.robot.commands.GrapAndPlace.placemid;
 import frc.robot.commands.automezation.DriveToTragetArea;
 import frc.robot.commands.automezation.autoplace;
-import frc.robot.commands.testCommands.DriveToTargettest;
+import frc.robot.commands.testCommands.ResetARM;
 import frc.robot.subsystems.*;
 
 /**
@@ -68,11 +67,11 @@ public class RobotContainer {
     private final JoystickButton hka = new JoystickButton(m_HelperDriverController, XboxController.Button.kA.value);
     private final JoystickButton hkx = new JoystickButton(m_HelperDriverController, XboxController.Button.kX.value);
     private final JoystickButton hkB = new JoystickButton(m_HelperDriverController, XboxController.Button.kB.value);
+    private final JoystickButton hkRB = new JoystickButton(m_HelperDriverController, XboxController.Button.kRightBumper.value);
 
     private final Trigger pik = new Trigger(() -> m_HelperDriverController.getRawAxis(2) > 0.1);
     private final Trigger aut = new Trigger(() -> m_HelperDriverController.getRawAxis(3) > 0.1);
 
-    
     /* Subsystems */
     private final Swervesubsystem s_Swerve = new Swervesubsystem();
     private final Grappersubsystem m_grapper = new Grappersubsystem();
@@ -121,15 +120,16 @@ public class RobotContainer {
         /*helper Draiver */
         hkx.onTrue(new placehigh(m_ARM, m_grapper));
 
-        // hkx.onTrue(new GrapOrPlace(m_ARM, m_grapper));
-
+        
         hkB.onTrue(new placemid(m_ARM, m_grapper));
 
-        hka.onTrue(new SetToPickDfoldCommand(m_ARM));
+        hka.onTrue(Commands.runOnce(() -> m_ARM.setposison(10)));
 
-        pik.onTrue(Commands.runOnce(()->m_grapper.speed(0.8))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
+        hkRB.onTrue(new ResetARM(m_ARM));
 
-        aut.onTrue(Commands.runOnce(()->m_grapper.speed(-0.8))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
+        pik.onTrue(Commands.runOnce(()->m_grapper.set(0.8))).onFalse(Commands.runOnce(()->m_grapper.set(0.0)));
+
+        aut.onTrue(Commands.runOnce(()->m_grapper.set(-0.8))).onFalse(Commands.runOnce(()->m_grapper.set(0.0)));
 
         h_Uppov.onTrue(Commands.runOnce(()->m_ARM.setstatelvl(true)));
 
@@ -138,8 +138,6 @@ public class RobotContainer {
         /*Bol Buttons */
         kY.onTrue(Commands.runOnce(()-> m_grapper.changstate()));
 
-        /* System Buttons */
-        double y = util.kalculatdisrtans(m_Limelight.targetX());
     }
 
     public Swervesubsystem getSwerveSubsystem() {

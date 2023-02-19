@@ -25,18 +25,18 @@ public class GrapOrPlaceInstent extends InstantCommand {
   public void initialize() {
     if(m_ARM.getstate()) {
       if(m_Grapper.getstate()) {
-        m_Grapper.speed(-0.8);
+        m_Grapper.set(-0.8);
       }
       else {
-        m_Grapper.speed(-0.8);
+        m_Grapper.set(-0.8);
       }
     }
     else {
       if(m_Grapper.getstate()) {
-        m_Grapper.speed(0.8);
+        m_Grapper.set(0.8);
       }
       else {
-        m_Grapper.speed(0.8);
+        m_Grapper.set(0.8);
       }
     }
   }

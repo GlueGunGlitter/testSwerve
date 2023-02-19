@@ -59,7 +59,7 @@ public class Grappersubsystem extends SubsystemBase {
     return m_Ultrasonic.getAverageValue();
   }
 
-  public void speed(double speed) {
+  public void set(double speed) {
     motorM19.set(speed);
   }
 
