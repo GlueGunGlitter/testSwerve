@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.GrapAndPlace.GrapOrPlace;
 import frc.robot.commands.GrapAndPlace.GrapOrPlaceInstent;
-import frc.robot.commands.GrapAndPlace.SetARMpostionToPlace;
-import frc.robot.commands.GrapAndPlace.placeCommandGroop;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -34,11 +32,9 @@ public class autoplace extends SequentialCommandGroup {
     addRequirements(m_Grapper);
 
     addCommands(new DriveToTragetArea(swerve, limelight));
-    addCommands(new SetARMpostionToPlace(ARM));
     addCommands(new GrapOrPlace(ARM, Grapper));
     addCommands(new WaitCommand(1.5));
     addCommands(Commands.runOnce(()->m_Grapper.StopGrapper()));
-    addCommands(new SetARMpostionToPlace(ARM));
     
   }
 }
