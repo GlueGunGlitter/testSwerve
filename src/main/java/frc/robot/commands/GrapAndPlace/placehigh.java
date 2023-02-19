@@ -13,15 +13,19 @@ public class placehigh extends SequentialCommandGroup {
   /** Creates a new placehigh. */
   private ARMsubsystem m_ARM;
   private Grappersubsystem m_Grapper;
-  public placehigh(ARMsubsystem ARM,  Grappersubsystem Grapper) {
+  private GramSubsystem m_gram;
+
+  public placehigh(ARMsubsystem ARM,  Grappersubsystem Grapper, GramSubsystem gram) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_ARM = ARM;
     addRequirements(m_ARM);
     m_Grapper = Grapper;
     addRequirements(m_Grapper);
+    m_gram = gram;
+    addRequirements(m_gram);
 
-    addCommands(new placeHigtCommand(ARM));
+    addCommands(new placeHigtCommand(ARM, gram));
     //addCommands(new GrapOrPlace(ARM, Grapper));
 
   }

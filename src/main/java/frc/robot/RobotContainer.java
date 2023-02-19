@@ -77,6 +77,7 @@ public class RobotContainer {
     private final Grappersubsystem m_grapper = new Grappersubsystem();
     private final ARMsubsystem m_ARM = new ARMsubsystem();
     private final limelightSubSystem m_Limelight = new limelightSubSystem();
+    private final GramSubsystem m_gram = new GramSubsystem();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -118,10 +119,9 @@ public class RobotContainer {
 
 
         /*helper Draiver */
-        hkx.onTrue(new placehigh(m_ARM, m_grapper));
+        hkx.onTrue(new placehigh(m_ARM, m_grapper, m_gram));
 
-        
-        hkB.onTrue(new placemid(m_ARM, m_grapper));
+        hkB.onTrue(new placemid(m_ARM, m_grapper, m_gram));
 
         hka.onTrue(Commands.runOnce(() -> m_ARM.setposison(10)));
 
@@ -130,10 +130,6 @@ public class RobotContainer {
         pik.onTrue(Commands.runOnce(()->m_grapper.set(0.8))).onFalse(Commands.runOnce(()->m_grapper.set(0.0)));
 
         aut.onTrue(Commands.runOnce(()->m_grapper.set(-0.8))).onFalse(Commands.runOnce(()->m_grapper.set(0.0)));
-
-        h_Uppov.onTrue(Commands.runOnce(()->m_ARM.setstatelvl(true)));
-
-        h_Downpov.onTrue(Commands.runOnce(()->m_ARM.setstatelvl(false)));
 
         /*Bol Buttons */
         kY.onTrue(Commands.runOnce(()-> m_grapper.changstate()));

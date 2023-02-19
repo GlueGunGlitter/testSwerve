@@ -13,10 +13,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 public class GramSubsystem extends SubsystemBase {
   /** Creates a new GramSubsystem. */
   //grap
-  WPI_TalonFX motorM20 = new WPI_TalonFX(20);
+  WPI_TalonFX motorM20 = new WPI_TalonFX(16);
   //ARM
-  WPI_TalonFX motorM21 = new WPI_TalonFX(21);
-
+  WPI_TalonFX motorM21 = new WPI_TalonFX(17);
+  // bool
+  boolean graund;
   public GramSubsystem() {
     motorM21.configForwardSoftLimitThreshold(0, 30);
     motorM21.configForwardSoftLimitEnable(true, 0);  
@@ -38,6 +39,9 @@ public class GramSubsystem extends SubsystemBase {
     //PIDSpeed/POWER
     motorM21.configMotionCruiseVelocity(0);
     motorM21.configMotionAcceleration(0);
+
+    //bool
+    graund = false;
   }
 
   @Override
@@ -57,19 +61,22 @@ public class GramSubsystem extends SubsystemBase {
     motorM21.set(TalonFXControlMode.MotionMagic, position);
   }
   
-  //get SensorPosition PID
-  public double getposison() {
-    double curretAngle = motorM21.getSelectedSensorPosition()/ 1000;
-    return curretAngle;
+  //Stop motorM20
+  public void StopGrapper() {
+  motorM20.set(0);
   }
 
-    //Stop motorM20
-    public void StopGrapper() {
-      motorM20.set(0);
-    }
-  
-    //set speed
-    public void set(double speed) {
-      motorM20.set(speed);
-    }
+  //set speed
+  public void set(double speed) {
+  motorM20.set(speed);
+  }
+
+  //get bool
+  public boolean getbool() {
+    return graund;
+  }
+
+  public void chengbool() {
+    graund = !graund;
+  }
 }
