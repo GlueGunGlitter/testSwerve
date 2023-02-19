@@ -2,51 +2,36 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.GrapAndPlace;
+package frc.robot.commands.GrapAndPlace.gram;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 
-public class SetARMpostionToPlace extends CommandBase {
-  /** Creates a new SetARMpostionToPlace. */
-  private ARMsubsystem m_ARM;
-  public SetARMpostionToPlace(ARMsubsystem ARM) {
+public class gramsetpos extends CommandBase {
+  /** Creates a new gramgrapCommand. */
+  GramSubsystem m_gram;
+  public gramsetpos(GramSubsystem gram) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_ARM = ARM;
-    addRequirements(m_ARM);
-
+    m_gram = gram;
+    addRequirements(m_gram);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_ARM.getstatelvl()) {      
-     if (m_ARM.getstate()) {
-       m_ARM.setposison(65);
-       m_ARM.changstate();
+    if (m_gram.getbool()) {
+      m_gram.setposison(0);
+      m_gram.setbool(false);
     }
     else {
-       m_ARM.setposison(10);
-       m_ARM.changstate();
-     }
+    m_gram.setposison(0.15);
+    m_gram.setbool(true);
     }
-    else {
-      if (m_ARM.getstate()) {
-        m_ARM.setposison(89);
-        m_ARM.changstate();
-     }
-     else {
-        m_ARM.setposison(10);
-        m_ARM.changstate();
-      }
-     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -55,7 +40,6 @@ public class SetARMpostionToPlace extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_ARM.getSensorPosition() > 69000;
-    
+    return m_gram.getposison() >= 0.15 || m_gram.getposison() <= 0;
   }
 }

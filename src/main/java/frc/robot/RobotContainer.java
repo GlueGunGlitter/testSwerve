@@ -15,15 +15,13 @@ import frc.robot.commands.DriveCommands.TeleopSwerveCommand;
 import frc.robot.commands.DriveCommands.TrunToAngle;
 import frc.robot.commands.GrapAndPlace.GrapOrPlace;
 import frc.robot.commands.GrapAndPlace.GrapOrPlaceInstent;
-import frc.robot.commands.GrapAndPlace.SetARMpostionToPlace;
-import frc.robot.commands.GrapAndPlace.placeCommandGroop;
 import frc.robot.commands.GrapAndPlace.placeHigtCommand;
 import frc.robot.commands.GrapAndPlace.placeMidCommand;
 import frc.robot.commands.GrapAndPlace.placehigh;
 import frc.robot.commands.GrapAndPlace.placemid;
 import frc.robot.commands.automezation.DriveToTragetArea;
 import frc.robot.commands.automezation.autoplace;
-import frc.robot.commands.testCommands.ResetArm;
+import frc.robot.commands.testCommands.ResetARM;
 import frc.robot.subsystems.*;
 
 /**
@@ -71,12 +69,14 @@ public class RobotContainer {
 
     private final Trigger pik = new Trigger(() -> m_HelperDriverController.getRawAxis(2) > 0.1);
     private final Trigger aut = new Trigger(() -> m_HelperDriverController.getRawAxis(3) > 0.1);
+
     
     /* Subsystems */
     private final Swervesubsystem s_Swerve = new Swervesubsystem();
     private final Grappersubsystem m_grapper = new Grappersubsystem();
     private final ARMsubsystem m_ARM = new ARMsubsystem();
     private final limelightSubSystem m_Limelight = new limelightSubSystem();
+    private final GramSubsystem m_gram = new GramSubsystem();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -118,21 +118,17 @@ public class RobotContainer {
 
 
         /*helper Draiver */
-        hkx.onTrue(new placehigh(m_ARM, m_grapper));
+        hkx.onTrue(new placehigh(m_ARM, m_grapper, m_gram));
 
-        hkB.onTrue(new placemid(m_ARM, m_grapper));
+        hkB.onTrue(new placemid(m_ARM, m_grapper, m_gram));
 
         hka.onTrue(Commands.runOnce(() -> m_ARM.setposison(10)));
 
-        hkRB.onTrue(new ResetArm(m_ARM));
+        hkRB.onTrue(new ResetARM(m_ARM));
 
-        pik.onTrue(Commands.runOnce(()->m_grapper.speed(0.8))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
+        pik.onTrue(Commands.runOnce(()->m_grapper.set(0.8))).onFalse(Commands.runOnce(()->m_grapper.set(0.0)));
 
-        aut.onTrue(Commands.runOnce(()->m_grapper.speed(-0.8))).onFalse(Commands.runOnce(()->m_grapper.speed(0.0)));
-
-        h_Uppov.onTrue(Commands.runOnce(()->m_ARM.setstatelvl(true)));
-
-        h_Downpov.onTrue(Commands.runOnce(()->m_ARM.setstatelvl(false)));
+        aut.onTrue(Commands.runOnce(()->m_grapper.set(-0.8))).onFalse(Commands.runOnce(()->m_grapper.set(0.0)));
 
         /*Bol Buttons */
         kY.onTrue(Commands.runOnce(()-> m_grapper.changstate()));

@@ -5,6 +5,7 @@
 package frc.robot.commands.GrapAndPlace;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.examination.gramExamination;
 import frc.robot.subsystems.*;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -13,14 +14,19 @@ public class placemid extends SequentialCommandGroup {
   /** Creates a new placemid. */
   private ARMsubsystem m_ARM;
   private Grappersubsystem m_Grapper;
-  public placemid(ARMsubsystem ARM, Grappersubsystem Grapper) {
+  private GramSubsystem m_gram;
+
+  public placemid(ARMsubsystem ARM, Grappersubsystem Grapper, GramSubsystem gram) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_ARM = ARM;
     addRequirements(m_ARM);
     m_Grapper = Grapper;
     addRequirements(m_Grapper);
-
+    m_gram = gram;
+    addRequirements(m_gram);
+    
+    addCommands(new gramExamination(gram));
     addCommands(new placeMidCommand(ARM));
     //addCommands(new GrapOrPlace(ARM, Grapper));
   }
