@@ -5,6 +5,7 @@
 package frc.robot.commands.GrapAndPlace;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.examination.gramExamination;
 import frc.robot.subsystems.*;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -25,7 +26,8 @@ public class placehigh extends SequentialCommandGroup {
     m_gram = gram;
     addRequirements(m_gram);
 
-    addCommands(new placeHigtCommand(ARM, gram));
+    addCommands(new gramExamination(gram));
+    addCommands(new placeHigtCommand(ARM));
     //addCommands(new GrapOrPlace(ARM, Grapper));
 
   }

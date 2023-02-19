@@ -19,6 +19,13 @@ public class GramSubsystem extends SubsystemBase {
   // bool
   boolean graund;
   public GramSubsystem() {
+    //config motorM21
+    motorM21.configFactoryDefault();
+    motorM21.setNeutralMode(NeutralMode.Brake);
+
+    //SensorPosition get
+    motorM21.setSelectedSensorPosition(0);
+
     motorM21.configForwardSoftLimitThreshold(0, 30);
     motorM21.configForwardSoftLimitEnable(true, 0);  
     motorM21.configReverseSoftLimitThreshold(0, 30);
@@ -60,9 +67,15 @@ public class GramSubsystem extends SubsystemBase {
     double position = Pos * 1000;
     motorM21.set(TalonFXControlMode.MotionMagic, position);
   }
+
+    //get SensorPosition PID
+    public double getposison() {
+      double curretAngle = motorM21.getSelectedSensorPosition()/ 1000;
+      return curretAngle;
+    }
   
   //Stop motorM20
-  public void StopGrapper() {
+  public void StopGram() {
   motorM20.set(0);
   }
 
@@ -76,7 +89,12 @@ public class GramSubsystem extends SubsystemBase {
     return graund;
   }
 
+  //chang bool
   public void chengbool() {
     graund = !graund;
+  }
+
+  public void setbool(Boolean tuful) {
+    this.graund = tuful;
   }
 }

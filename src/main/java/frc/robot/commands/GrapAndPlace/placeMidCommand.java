@@ -12,27 +12,20 @@ import frc.robot.subsystems.*;
 public class placeMidCommand extends CommandBase {
   /** Creates a new placeMidCommand. */
   private ARMsubsystem m_ARM;
-  private GramSubsystem m_gram;
   private Timer timer;
-  public placeMidCommand(ARMsubsystem ARM, GramSubsystem gram) {
+  public placeMidCommand(ARMsubsystem ARM) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_ARM = ARM;
     addRequirements(m_ARM);
-    m_gram = gram;
-    addRequirements(m_gram);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     timer.start();
-    if (m_gram.getbool()) {
-      m_gram.setposison(0);
-    }
-    else {
-      m_ARM.setposison(79);
-      m_ARM.setstate(false);
-    }
+    m_ARM.setposison(79);
+    m_ARM.setstate(true);
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -49,6 +42,6 @@ public class placeMidCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_ARM.getSensorPosition() < 79 && timer.get() > 2;
+    return m_ARM.getposison() > 79 && timer.get() > 2 || m_ARM.getposison() < 0.079 && timer.get() > 2;
   }
 }

@@ -75,7 +75,7 @@ public class ARMsubsystem extends SubsystemBase {
     // music = new Orchestra(or, "src\\main\\deploy\\gg.chrp");
     // music.play();
     //state
-    stateARM = true;
+    stateARM = false;
     stateLVLARM = true;
 
   }
