@@ -10,24 +10,18 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.*;
-import frc.robot.commands.SetToPickDfoldCommand;
 import frc.robot.commands.DriveCommands.TeleopSwerveCommand;
 import frc.robot.commands.DriveCommands.TrunToAngle;
-import frc.robot.commands.GrapAndPlace.GrapOrPlace;
-import frc.robot.commands.GrapAndPlace.GrapOrPlaceInstent;
-import frc.robot.commands.GrapAndPlace.placeHigtCommand;
-import frc.robot.commands.GrapAndPlace.placeMidCommand;
-import frc.robot.commands.GrapAndPlace.placehigh;
-import frc.robot.commands.GrapAndPlace.placemid;
-import frc.robot.commands.automezation.DriveToTragetArea;
-import frc.robot.commands.automezation.autoplace;
-import frc.robot.commands.testCommands.ResetARM;
+
 import frc.robot.subsystems.*;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
@@ -35,7 +29,7 @@ public class RobotContainer {
     private final Joystick m_driver = new Joystick(0);
     private final Joystick m_HelperDriverController = new Joystick(1);
 
-    //pov
+    // pov
     POVButton d_Uppov = new POVButton(m_driver, 0);
     POVButton d_Rahgtpov = new POVButton(m_driver, 90);
     POVButton d_Downpov = new POVButton(m_driver, 180);
@@ -65,49 +59,47 @@ public class RobotContainer {
     private final JoystickButton hka = new JoystickButton(m_HelperDriverController, XboxController.Button.kA.value);
     private final JoystickButton hkx = new JoystickButton(m_HelperDriverController, XboxController.Button.kX.value);
     private final JoystickButton hkB = new JoystickButton(m_HelperDriverController, XboxController.Button.kB.value);
-    private final JoystickButton hkRB = new JoystickButton(m_HelperDriverController, XboxController.Button.kRightBumper.value);
+    private final JoystickButton hkRB = new JoystickButton(m_HelperDriverController,
+            XboxController.Button.kRightBumper.value);
 
     private final Trigger pik = new Trigger(() -> m_HelperDriverController.getRawAxis(2) > 0.1);
     private final Trigger aut = new Trigger(() -> m_HelperDriverController.getRawAxis(3) > 0.1);
 
-    
     /* Subsystems */
     private final Swervesubsystem s_Swerve = new Swervesubsystem();
-    private final Grappersubsystem m_grapper = new Grappersubsystem();
-    private final ARMsubsystem m_ARM = new ARMsubsystem();
-    private final limelightSubSystem m_Limelight = new limelightSubSystem();
-    private final GramSubsystem m_gram = new GramSubsystem();
 
-
-    /** The container for the robot. Contains subsystems, OI devices, and commands. */
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
     public RobotContainer() {
-        
+
         s_Swerve.setDefaultCommand(
-            new TeleopSwerveCommand(
-                s_Swerve, 
-                () -> -m_driver.getRawAxis(translationAxis), 
-                () -> -m_driver.getRawAxis(strafeAxis), 
-                () -> -m_driver.getRawAxis(rotationAxis) * 0.6, 
-                () -> robotCentric.getAsBoolean(),
-                () -> speedaut.getAsBoolean()
-            )
+                new TeleopSwerveCommand(
+                        s_Swerve,
+                        () -> -m_driver.getRawAxis(translationAxis),
+                        () -> -m_driver.getRawAxis(strafeAxis),
+                        () -> -m_driver.getRawAxis(rotationAxis) * 0.6,
+                        () -> robotCentric.getAsBoolean(),
+                        () -> speedaut.getAsBoolean())
 
         );
-        
+
         // m_ARM.setDefaultCommand(new SetToPickDfoldCommand(m_ARM));
         // Configure the button bindings
         configureButtonBindings();
-        
+
     }
 
     /**
-     * Use this method to define your button->command mappings. Buttons can be created by
+     * Use this method to define your button->command mappings. Buttons can be
+     * created by
      * instantiating a {@link GenericHID} or one of its subclasses ({@link
-     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+     * it to a {@link
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        
+
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
@@ -116,31 +108,10 @@ public class RobotContainer {
         d_Downpov.onTrue(new TrunToAngle(s_Swerve, 180));
         d_Leftpov.onTrue(new TrunToAngle(s_Swerve, 270));
 
-
-        /*helper Draiver */
-        hkx.onTrue(new placehigh(m_ARM, m_grapper, m_gram));
-
-        hkB.onTrue(new placemid(m_ARM, m_grapper, m_gram));
-
-        hka.onTrue(Commands.runOnce(() -> m_ARM.setposison(10)));
-
-        hkRB.onTrue(new ResetARM(m_ARM));
-
-        pik.onTrue(Commands.runOnce(()->m_grapper.set(0.8))).onFalse(Commands.runOnce(()->m_grapper.set(0.0)));
-
-        aut.onTrue(Commands.runOnce(()->m_grapper.set(-0.8))).onFalse(Commands.runOnce(()->m_grapper.set(0.0)));
-
-        /*Bol Buttons */
-        kY.onTrue(Commands.runOnce(()-> m_grapper.changstate()));
-
     }
 
     public Swervesubsystem getSwerveSubsystem() {
         return s_Swerve;
-    }
-
-    public ARMsubsystem getARMsubsystem() {
-        return m_ARM;
     }
 
     /**
@@ -148,11 +119,7 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        return new autoPathPlanner(s_Swerve, m_ARM, m_Limelight, m_grapper);
-    }
 
-    //Led CANfier.
-    
+    // Led CANfier.
+
 }
